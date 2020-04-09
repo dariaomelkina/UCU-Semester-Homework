@@ -1,7 +1,11 @@
 ## Project name: UCU-Semester-Homework: Martian_Weather_Project
 
 ## Description: 
-The project will consist of modules, used to create a web app for representing and brief analyzing Martian Weather.
+The project will include:
+
+* creating a Martian weather web-app  
+* visual representing of Martian Weather
+* brief analyzing of Martian Weather
 
 ## Table of Contents: 
 [0. Домашнє завдання №0](https://github.com/dariaomelkina/UCU-Semester-Homework/wiki/0.-%D0%94%D0%BE%D0%BC%D0%B0%D1%88%D0%BD%D1%94-%D0%B7%D0%B0%D0%B2%D0%B4%D0%B0%D0%BD%D0%BD%D1%8F-%E2%84%960)
