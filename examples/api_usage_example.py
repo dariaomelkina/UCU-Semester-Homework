@@ -20,12 +20,13 @@ def get_data_from_URL(base_url):
         data = json.loads(data)
     return data
 
-
 ready_data = get_data_from_URL(BASE_URL)
+data = pandas.DataFrame(ready_data["479"])
+
 for key in ready_data.keys():
-    if key != "validity_checks":
+    if key != "validity_checks" or "479":
         print("-------------" * 7)
         print(key)
         print("-------------" * 7)
         df = pandas.DataFrame(ready_data[key])
-        print(df)
+        print(df["AT"]["av"])
