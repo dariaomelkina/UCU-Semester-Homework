@@ -25,6 +25,17 @@ class List:
     def __iter__(self):
         return _ListIterator(self._elements)
 
+    def add(self, item):
+        for i in range(self._size):
+            if self[i] is None:
+                self[i] = item
+                break
+
+    def __str__(self):
+        st = '['
+        for i in range(self._size):
+            st += str(self[i]) + ', '
+        return st[:-2] + ']'
 
 class _ListIterator:
     def __init__(self, the_array):

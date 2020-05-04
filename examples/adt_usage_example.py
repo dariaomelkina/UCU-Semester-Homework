@@ -1,5 +1,5 @@
 # import class from the module
-from adt_weather_data import WeatherData
+from modules.adt_weather_data import WeatherData
 # import needed libs
 import json
 import urllib.request
@@ -7,19 +7,20 @@ import urllib.parse
 import plotly.graph_objects as go
 
 # get data for the adt
-BASE_URL = "https://api.nasa.gov/insight_weather/?api_key=DEMO_KEY&feedtype=json&ver=1.0"
-
-
-def get_data_from_url(base_url):
-    with urllib.request.urlopen(base_url) as response:
-        data = response.read()
-        data = data.decode("utf-8")
-        data = json.loads(data)
-    return data
-
-
-json_data = get_data_from_url(BASE_URL)
-
+# BASE_URL = "https://api.nasa.gov/insight_weather/?api_key=DEMO_KEY&feedtype=json&ver=1.0"
+#
+#
+# def get_data_from_url(base_url):
+#     with urllib.request.urlopen(base_url) as response:
+#         data = response.read()
+#         data = data.decode("utf-8")
+#         data = json.loads(data)
+#     return data
+#
+#
+# json_data = get_data_from_url(BASE_URL)
+with open('/My_python_programs/semester_homework/NASA_example_data.txt') as file:
+    json_data = json.load(file)
 # load data into the class
 week_weather = WeatherData(json_data)
 
@@ -55,13 +56,14 @@ print(monday_season)
 
 # assign information needed for a wind rose to a variable
 monday_wind_rose = week_weather.wind_rose(1)
-print(monday_wind_rose)
+print(monday_wind_rose.head().item)
+print(monday_wind_rose.head().next)
 
 
 # build the wind rose
 # def make_wind_rose(day_wind_rose):
 #     """ Return a wind rose from data for one day. """
-#     lst = day_wind_rose.head()
+#     lst = day_wind_rose.head().item
 #     t = day_wind_rose.head().next
 #     fig = go.Figure(go.Barpolar(r=lst,
 #                                 theta=t,

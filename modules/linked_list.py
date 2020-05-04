@@ -9,6 +9,9 @@ class LinkedList:
     def __len__(self):
         return self._size
 
+    def head(self):
+        return self._head
+
     def add(self, item):
         new_node = _LinkedListNode(item)
         new_node.next = self._head
@@ -23,6 +26,7 @@ class LinkedList:
         node = self._head
         while node is not None:
             st += str(node.item) + ' - '
+            node = node.next
         return st[:-3]
 
 
