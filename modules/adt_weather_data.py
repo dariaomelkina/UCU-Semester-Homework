@@ -1,6 +1,6 @@
-from list import List, ListNode
-from linked_list import LinkedList, LinkedListNode
-from multi_linked_list import MultiLinkedList, MultiLinkedListNode
+from list import List
+from linked_list import LinkedList
+from multi_linked_list import DoubleMLinkedList, TripleMLinkedList
 
 
 class WeatherData:

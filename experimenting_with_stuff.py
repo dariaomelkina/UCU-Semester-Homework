@@ -69,6 +69,7 @@ def make_wind_rose(day):
     df = pandas.DataFrame(data)
     lst = [i for i in df.iloc[4]][:-1]
     t = [i for i in df.iloc[0]][:-1]
+    print(lst, t)
     fig = go.Figure(go.Barpolar(r=lst,
                                 theta=t,
                                 marker_color=['coral'] * len(lst),
@@ -96,10 +97,10 @@ app.layout = html.Div(
         'text-shadow': '0 0 20px #fff, 0 0 30px coral, 0 0 40px coral, '
                        '0 0 50px coral, 0 0 60px coral, 0 0 70px coral, 0 0 80px coral'}),
 
-     #  html.Div(children=['''
-     #     Welcome to Martian Weather Project! Here you can check latest weather tendencies on the planet Mars.
-     # '''], style={'color': 'white', 'text-shadow': '0 0 20px #fff, 0 0 30px coral, 0 0 40px coral'}),
-     #  dcc.Markdown('.', style={"white-space": "pre", 'color': 'black'}),
+     html.Div(children=['''
+         Welcome to Martian Weather Project! Here you can check latest weather tendencies on the planet Mars.
+     '''], style={'color': 'white', 'text-shadow': '0 0 20px #fff, 0 0 30px coral, 0 0 40px coral'}),
+     dcc.Markdown('.', style={"white-space": "pre", 'color': 'black'}),
      html.H4('Select one Sol (Martian day):', style={"white-space": "pre", 'color': 'white',
                                                      'text-shadow': '0 0 20px #fff, 0 0 30px coral, 0 0 40px coral'}),
      dcc.Tabs(id='tabs-example', value='tab-1', children=[
@@ -137,7 +138,7 @@ app.layout = html.Div(
          "primary": "gold",
          "background": "PeachPuff"
      }, style={'width': '500px'}),
-     html.Div(id='tabs-example-content', style={'display': 'inline-block'}),
+     html.Div(id='tabs-example-content'),
 
      ],
     style={'background-image': 'url("assets/mars.jpg")', 'bottom': '0', 'right': '0', 'left': '0',
@@ -203,3 +204,12 @@ server = app.server
 dev_server = app.run_server
 if __name__ == '__main__':
     app.run_server(debug=True)
+
+
+# import plotly.graph_objects as go
+#
+# fig = go.Figure()
+# fig.add_trace(go.Scatter(x=[1, 2, 3, 4, 5, 6, 7], y=[3, 5, 7, 5, 6, 7, 9],
+#                     mode='lines',
+#                     name='lines'))
+# fig.show()
