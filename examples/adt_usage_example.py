@@ -28,7 +28,7 @@ week_weather = WeatherData(json_data)
 print(week_weather.days_list())
 
 # assign information about one day to a variable
-monday = week_weather.day(1)
+monday = week_weather.day(0)
 print(monday)
 
 # return a table with data for one day (in that case monday and we use only average data for each)

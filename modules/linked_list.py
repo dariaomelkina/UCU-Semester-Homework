@@ -3,7 +3,7 @@
 
 class LinkedList:
     def __init__(self, item):
-        self._head = _LinkedListNode(item)
+        self._head = LinkedListNode(item)
         self._size = 1
 
     def __len__(self):
@@ -13,7 +13,7 @@ class LinkedList:
         return self._head
 
     def add(self, item):
-        new_node = _LinkedListNode(item)
+        new_node = LinkedListNode(item)
         new_node.next = self._head
         self._head = new_node
         self._size += 1
@@ -30,11 +30,13 @@ class LinkedList:
         return st[:-3]
 
 
-class _LinkedListNode:
+class LinkedListNode:
     def __init__(self, item):
         self.item = item
         self.next = None
-        pass
+
+    def __str__(self):
+        return "({})".format(self.item)
 
 
 class _LinkedListIterator:

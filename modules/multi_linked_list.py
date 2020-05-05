@@ -7,6 +7,9 @@ class DoubleMLinkedList:
     def __init__(self, item):
         self._head = _DoubleMLinkedListNode(item)
 
+    def head(self):
+        return self._head
+
     def add_one_way(self, item):
         self._head.one_way = item
 
@@ -17,6 +20,9 @@ class DoubleMLinkedList:
 class TripleMLinkedList:
     def __init__(self, item):
         self._head = _TripleMLinkedListNode(item)
+
+    def head(self):
+        return self._head
 
     def add_one_way(self, item):
         self._head.one_way = item
