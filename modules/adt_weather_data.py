@@ -235,3 +235,4 @@ class WeatherData:
             result.add(node.item)
             node = node.next
         return result
+

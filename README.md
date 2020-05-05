@@ -36,11 +36,18 @@ The project will include:
 [api_usage_example.py](https://github.com/dariaomelkina/UCU-Semester-Homework/blob/master/examples/api_usage_example.py) –– module with NASA’s InSight: Mars Weather Service API usage example.
 
 [adt_usage_example.py](https://github.com/dariaomelkina/UCU-Semester-Homework/blob/master/examples/adt_usage_example.py) –– module with ADT Weather Data Container usage example.
-## Installation: 
 
-## Usage: 
+## Purpose and usage: 
+
+## Input/Output data:
 
 ## Example:
+
+## Program structure:
+
+## Installation: 
+
+## Testing:
 
 ## Contributing: 
 
