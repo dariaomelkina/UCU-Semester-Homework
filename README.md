@@ -11,13 +11,13 @@ The project will include:
 ### Main modules:
 [main.py]() –– main module with the actual program.
 
-[adt_weather_data.py]() –– module with ADT Weather Data Container.
+[adt_weather_data.py](https://github.com/dariaomelkina/UCU-Semester-Homework/blob/master/modules/adt_weather_data.py) –– module with ADT Weather Data Container.
 
-[list.py]() –– module with list data structure.
+[list.py](https://github.com/dariaomelkina/UCU-Semester-Homework/blob/master/modules/list.py) –– module with list data structure.
 
-[linked_list.py]() –– module with linked list data structure.
+[linked_list.py](https://github.com/dariaomelkina/UCU-Semester-Homework/blob/master/modules/linked_list.py) –– module with linked list data structure.
 
-[multi_linked_list.py]() –– module with multi-linked list data structures.
+[multi_linked_list.py](https://github.com/dariaomelkina/UCU-Semester-Homework/blob/master/modules/multi_linked_list.py) –– module with multi-linked list data structures.
 ### Wiki: 
 [0. Домашнє завдання №0](https://github.com/dariaomelkina/UCU-Semester-Homework/wiki/0.-%D0%94%D0%BE%D0%BC%D0%B0%D1%88%D0%BD%D1%94-%D0%B7%D0%B0%D0%B2%D0%B4%D0%B0%D0%BD%D0%BD%D1%8F-%E2%84%960)
 
