@@ -73,6 +73,62 @@ class WeatherData:
             node.next = self._week_list[i][1].one_way[0]
             node = node.next
 
+        # connect information for all the days tmax
+        self._graphs_data_list.head().one_way[1] = LinkedList('tmax')
+        node = self._graphs_data_list.head().one_way[1].head()
+        for i in range(7):
+            node.next = self._week_list[i][1].one_way[1]
+            node = node.next
+
+        # connect information for all the days tav
+        self._graphs_data_list.head().one_way[2] = LinkedList('tav')
+        node = self._graphs_data_list.head().one_way[2].head()
+        for i in range(7):
+            node.next = self._week_list[i][1].one_way[2]
+            node = node.next
+
+        # connect information for all the days pmin
+        self._graphs_data_list.head().second_way[0] = LinkedList('pmin')
+        node = self._graphs_data_list.head().second_way[0].head()
+        for i in range(7):
+            node.next = self._week_list[i][1].second_way[0]
+            node = node.next
+
+        # connect information for all the days pmax
+        self._graphs_data_list.head().second_way[1] = LinkedList('pmax')
+        node = self._graphs_data_list.head().second_way[1].head()
+        for i in range(7):
+            node.next = self._week_list[i][1].second_way[1]
+            node = node.next
+
+        # connect information for all the days pav
+        self._graphs_data_list.head().second_way[2] = LinkedList('pav')
+        node = self._graphs_data_list.head().second_way[2].head()
+        for i in range(7):
+            node.next = self._week_list[i][1].second_way[2]
+            node = node.next
+
+        # connect information for all the days smin
+        self._graphs_data_list.head().third_way[0] = LinkedList('smin')
+        node = self._graphs_data_list.head().third_way[0].head()
+        for i in range(7):
+            node.next = self._week_list[i][1].third_way[0]
+            node = node.next
+
+        # connect information for all the days smax
+        self._graphs_data_list.head().third_way[1] = LinkedList('smax')
+        node = self._graphs_data_list.head().third_way[1].head()
+        for i in range(7):
+            node.next = self._week_list[i][1].third_way[1]
+            node = node.next
+
+        # connect information for all the days sav
+        self._graphs_data_list.head().third_way[2] = LinkedList('sav')
+        node = self._graphs_data_list.head().third_way[2].head()
+        for i in range(7):
+            node.next = self._week_list[i][1].third_way[2]
+            node = node.next
+
     def days_list(self):
         return self._days_list
 
@@ -94,8 +150,18 @@ class WeatherData:
         return self._week_list[n][3]
 
     def wind_rose(self, n):
-        wr = LinkedList(self._week_list[n][2].one_way)
-        wr.head().next = self._week_list[n][2].second_way
+        ct = List(len(self._week_list[n][2].one_way))
+        node = self._week_list[n][2].one_way.head()
+        while node is not None:
+            ct.add(node.item)
+            node = node.next
+        dg = List(len(self._week_list[n][2].one_way))
+        node = self._week_list[n][2].second_way.head()
+        while node is not None:
+            dg.add(node.item)
+            node = node.next
+        wr = LinkedList(ct)
+        wr.head().next = dg
         return wr
 
     def min_temp(self):
@@ -107,25 +173,65 @@ class WeatherData:
         return result
 
     def max_temp(self):
-        pass
+        result = List(7)
+        node = self._graphs_data_list.head().one_way[1].head().next
+        while node is not None:
+            result.add(node.item)
+            node = node.next
+        return result
 
     def av_temp(self):
-        pass
+        result = List(7)
+        node = self._graphs_data_list.head().one_way[2].head().next
+        while node is not None:
+            result.add(node.item)
+            node = node.next
+        return result
 
     def min_pres(self):
-        pass
+        result = List(7)
+        node = self._graphs_data_list.head().second_way[0].head().next
+        while node is not None:
+            result.add(node.item)
+            node = node.next
+        return result
 
     def max_pres(self):
-        pass
+        result = List(7)
+        node = self._graphs_data_list.head().second_way[1].head().next
+        while node is not None:
+            result.add(node.item)
+            node = node.next
+        return result
 
     def av_pres(self):
-        pass
+        result = List(7)
+        node = self._graphs_data_list.head().second_way[2].head().next
+        while node is not None:
+            result.add(node.item)
+            node = node.next
+        return result
 
     def min_speed(self):
-        pass
+        result = List(7)
+        node = self._graphs_data_list.head().third_way[0].head().next
+        while node is not None:
+            result.add(node.item)
+            node = node.next
+        return result
 
     def max_speed(self):
-        pass
+        result = List(7)
+        node = self._graphs_data_list.head().third_way[1].head().next
+        while node is not None:
+            result.add(node.item)
+            node = node.next
+        return result
 
     def av_speed(self):
-        pass
+        result = List(7)
+        node = self._graphs_data_list.head().third_way[2].head().next
+        while node is not None:
+            result.add(node.item)
+            node = node.next
+        return result
