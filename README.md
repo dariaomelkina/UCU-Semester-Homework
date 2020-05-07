@@ -44,8 +44,8 @@ The project will include:
 ## Example:
 ![](https://github.com/dariaomelkina/UCU-Semester-Homework/blob/master/docs/app1.jpg)
 ![](https://github.com/dariaomelkina/UCU-Semester-Homework/blob/master/docs/app2.jpg)
-![](https://github.com/dariaomelkina/UCU-Semester-Homework/blob/master/docs/app3.jpg)
-![](https://github.com/dariaomelkina/UCU-Semester-Homework/blob/master/docs/app4.jpg)
+![](https://github.com/dariaomelkina/UCU-Semester-Homework/blob/master/docs/app3.png)
+![](https://github.com/dariaomelkina/UCU-Semester-Homework/blob/master/docs/app4.png)
 ![](https://github.com/dariaomelkina/UCU-Semester-Homework/blob/master/docs/app5.jpg)
 ![](https://github.com/dariaomelkina/UCU-Semester-Homework/blob/master/docs/app6.jpg)
 ## Program structure:
