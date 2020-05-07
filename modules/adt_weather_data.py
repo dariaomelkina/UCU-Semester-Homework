@@ -133,17 +133,11 @@ class WeatherData:
         return self._days_list
 
     def day(self, n):
-        result = List(10)
+        result = List(4)
         result[0] = self._week_list[n][0]
-        result[1] = self._week_list[n][1].one_way[0].item
-        result[2] = self._week_list[n][1].one_way[1].item
-        result[3] = self._week_list[n][1].one_way[2].item
-        result[4] = self._week_list[n][1].second_way[0].item
-        result[5] = self._week_list[n][1].second_way[1].item
-        result[6] = self._week_list[n][1].second_way[2].item
-        result[7] = self._week_list[n][1].third_way[0].item
-        result[8] = self._week_list[n][1].third_way[1].item
-        result[9] = self._week_list[n][1].third_way[2].item
+        result[1] = self._week_list[n][1].one_way[2].item
+        result[2] = self._week_list[n][1].second_way[2].item
+        result[3] = self._week_list[n][1].third_way[2].item
         return result
 
     def season(self, n):

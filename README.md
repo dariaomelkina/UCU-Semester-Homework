@@ -9,7 +9,7 @@ The project will include:
 
 ## Table of Contents:
 ### Main modules:
-[main.py]() –– main module with the actual program.
+[main.py](https://github.com/dariaomelkina/UCU-Semester-Homework/blob/master/modules/main.py) –– main module with the actual program.
 
 [adt_weather_data.py](https://github.com/dariaomelkina/UCU-Semester-Homework/blob/master/modules/adt_weather_data.py) –– module with ADT Weather Data Container.
 
