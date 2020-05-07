@@ -4,7 +4,13 @@ from modules.multi_linked_list import DoubleMLinkedList, TripleMLinkedList
 
 
 class WeatherData:
+    """ Class for weather data container representation. """
+
     def __init__(self, data):
+        """
+        (WeatherData) -> NoneType
+        Create new weather data container.
+        """
         self._data = data
         self._week_list = List(7)
         for i in range(len(self._week_list)):
@@ -17,6 +23,10 @@ class WeatherData:
         self.extract_data()
 
     def extract_data(self):
+        """
+        (WeatherData) -> NoneType
+        Extract data from the json and place it in the container.
+        """
         # make a dictionary with information
         dict_with_day_data = dict()
         for key in self._data.keys():
@@ -130,9 +140,18 @@ class WeatherData:
             node = node.next
 
     def days_list(self):
+        """
+        (WeatherData) -> List
+        Return a list with sols (days) numbers.
+        """
         return self._days_list
 
     def day(self, n):
+        """
+        (WeatherData, int) -> List
+        Return a list with information about the day.
+        (sol, average temperature, pressure, wind speed)
+        """
         result = List(4)
         result[0] = self._week_list[n][0]
         result[1] = self._week_list[n][1].one_way[2].item
@@ -141,9 +160,17 @@ class WeatherData:
         return result
 
     def season(self, n):
+        """
+        (WeatherData, int) -> str
+        Return season corresponding to the day.
+        """
         return self._week_list[n][3]
 
     def wind_rose(self, n):
+        """
+        (WeatherData, int) -> LinkedList
+        Return linked list with data for n-th day wind rose.
+        """
         ct = List(len(self._week_list[n][2].one_way))
         node = self._week_list[n][2].one_way.head()
         while node is not None:
@@ -159,6 +186,10 @@ class WeatherData:
         return wr
 
     def min_temp(self):
+        """
+        (WeatherData) -> List
+        Return list with minimum temperatures of the week.
+        """
         result = List(7)
         node = self._graphs_data_list.head().one_way[0].head().next
         while node is not None:
@@ -167,6 +198,10 @@ class WeatherData:
         return result
 
     def max_temp(self):
+        """
+        (WeatherData) -> List
+        Return list with maximum temperatures of the week.
+        """
         result = List(7)
         node = self._graphs_data_list.head().one_way[1].head().next
         while node is not None:
@@ -175,6 +210,10 @@ class WeatherData:
         return result
 
     def av_temp(self):
+        """
+        (WeatherData) -> List
+        Return list with average temperatures of the week.
+        """
         result = List(7)
         node = self._graphs_data_list.head().one_way[2].head().next
         while node is not None:
@@ -183,6 +222,10 @@ class WeatherData:
         return result
 
     def min_pres(self):
+        """
+        (WeatherData) -> List
+        Return list with minimum pressure of the week.
+        """
         result = List(7)
         node = self._graphs_data_list.head().second_way[0].head().next
         while node is not None:
@@ -191,6 +234,10 @@ class WeatherData:
         return result
 
     def max_pres(self):
+        """
+        (WeatherData) -> List
+        Return list with maximum pressure of the week.
+        """
         result = List(7)
         node = self._graphs_data_list.head().second_way[1].head().next
         while node is not None:
@@ -199,6 +246,10 @@ class WeatherData:
         return result
 
     def av_pres(self):
+        """
+        (WeatherData) -> List
+        Return list with average pressure of the week.
+        """
         result = List(7)
         node = self._graphs_data_list.head().second_way[2].head().next
         while node is not None:
@@ -207,6 +258,10 @@ class WeatherData:
         return result
 
     def min_speed(self):
+        """
+        (WeatherData) -> List
+        Return list with minimum wind speed of the week.
+        """
         result = List(7)
         node = self._graphs_data_list.head().third_way[0].head().next
         while node is not None:
@@ -215,6 +270,10 @@ class WeatherData:
         return result
 
     def max_speed(self):
+        """
+        (WeatherData) -> List
+        Return list with maximum wind speed of the week.
+        """
         result = List(7)
         node = self._graphs_data_list.head().third_way[1].head().next
         while node is not None:
@@ -223,10 +282,13 @@ class WeatherData:
         return result
 
     def av_speed(self):
+        """
+        (WeatherData) -> List
+        Return list with average wind speed of the week.
+        """
         result = List(7)
         node = self._graphs_data_list.head().third_way[2].head().next
         while node is not None:
             result.add(node.item)
             node = node.next
         return result
-

@@ -42,12 +42,12 @@ The project will include:
 ## Input/Output data:
 
 ## Example:
-![](https://github.com/dariaomelkina/UCU-Semester-Homework/blob/master/docs/app1.jpg)
+![](https://github.com/dariaomelkina/UCU-Semester-Homework/blob/master/docs/app1.png)
 ![](https://github.com/dariaomelkina/UCU-Semester-Homework/blob/master/docs/app2.jpg)
 ![](https://github.com/dariaomelkina/UCU-Semester-Homework/blob/master/docs/app3.png)
 ![](https://github.com/dariaomelkina/UCU-Semester-Homework/blob/master/docs/app4.png)
 ![](https://github.com/dariaomelkina/UCU-Semester-Homework/blob/master/docs/app5.jpg)
-![](https://github.com/dariaomelkina/UCU-Semester-Homework/blob/master/docs/app6.jpg)
+![](https://github.com/dariaomelkina/UCU-Semester-Homework/blob/master/docs/app6.png)
 ## Program structure:
 
 ## Installation: 

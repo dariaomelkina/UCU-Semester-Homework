@@ -8,12 +8,10 @@ import dash
 import dash_core_components as dcc
 import dash_html_components as html
 import plotly.graph_objects as go
-import plotly.express as px
 from dash.dependencies import Input, Output
-import pandas
 
 # getting and preparing data
-BASE_URL = "https://api.nasa.gov/insight_weather/?api_key=aNnXcB7VnzSnzQVmBRriouUeGJUSblCeD7Pwr4Id&feedtype=json&ver=1.0"
+BASE_URL = "https://api.nasa.gov/insight_weather/?api_key=DEMO_KEY&feedtype=json&ver=1.0"
 
 
 # a demo_key is used for defending private information,
@@ -22,6 +20,10 @@ BASE_URL = "https://api.nasa.gov/insight_weather/?api_key=aNnXcB7VnzSnzQVmBRriou
 
 
 def get_data_from_url(base_url):
+    """
+    (str) -> str
+    Return the data, got with url, in json-format.
+    """
     with urllib.request.urlopen(base_url) as response:
         data = response.read()
         data = data.decode("utf-8")
@@ -37,15 +39,19 @@ week_weather = WeatherData(json_data)
 # functions for creating visual elements
 # return a table with data for one day
 def make_day_table(n):
+    """
+    (int) -> Figure
+    Return a table with data for the n-th day of the week.
+    """
     day = week_weather.day(n)
     fig = go.Figure(data=[go.Table(
         header=dict(values=['MARTIAN DAY {}'.format(day[0])], line_color='DarkOrange',
                     fill_color='PeachPuff',
                     height=40,
                     font=dict(family='Courier New, monospace', color='DarkOrange', size=32)),
-        cells=dict(values=[['Average temperature: {}'.format(day[1]),
-                            'Average wind speed: {}'.format(day[2]),
-                            'Average pressure: {}'.format(day[3])], ], line_color='DarkOrange',
+        cells=dict(values=[['Average temperature: {} °F'.format(day[1]),
+                            'Average pressure: {} Pa'.format(day[2]),
+                            'Average wind speed: {} m/s'.format(day[3])], ], line_color='DarkOrange',
                    fill_color='OldLace', align='left', height=40,
                    font=dict(family='Courier New, monospace', color='grey', size=23))),
     ])
@@ -55,6 +61,10 @@ def make_day_table(n):
 
 # return the wind rose
 def make_wind_rose(n):
+    """
+    (int) -> Figure
+    Return a wind rose for the n-th day of the week.
+    """
     day_wind_rose = week_weather.wind_rose(n)
     lst = day_wind_rose.head().item
     t = day_wind_rose.head().next
@@ -77,6 +87,10 @@ def make_wind_rose(n):
 
 # return the line graph
 def make_trace_graph(data, name):
+    """
+    (int) -> Figure
+    Return a line graph with the data for all the days of the week.
+    """
     fig = go.Figure()
     fig.add_trace(go.Scatter(x=[i for i in week_weather.days_list()], y=[i for i in data],
                              mode='lines',
@@ -104,7 +118,6 @@ app.layout = html.Div(
         'textAlign': 'center', 'color': 'white',
         'text-shadow': '0 0 20px #fff, 0 0 30px coral, 0 0 40px coral, '
                        '0 0 50px coral, 0 0 60px coral, 0 0 70px coral, 0 0 80px coral'}),
-
 
      html.H4('Select one Sol (Martian day):', style={"white-space": "pre", 'color': 'white',
                                                      'text-shadow': '0 0 20px #fff, 0 0 30px coral, 0 0 40px coral'}),
@@ -153,16 +166,16 @@ app.layout = html.Div(
      html.Div(id='tabs-example-content'),
      dcc.Markdown('''
          ###### Welcome to Martian Weather Project! Here you can check latest weather tendencies on the planet Mars. 
-         ###### The project uses NASA's InSight: Mars Weather Service API in order to obtain the most recent information.
+         ###### The project uses NASA's InSight: Mars Weather Service API to obtain the most recent information.
          ###### For more information about the weather have a look these graphic:
      ''', style={'color': 'white'}),
      dcc.Markdown('.', style={"white-space": "pre", 'color': 'black'}),
      html.Div([html.Div(dcc.Graph(
          figure=make_trace_graph(week_weather.min_temp(), 'Minimum temperature through the week:'),
-    )),
-     html.Div(dcc.Graph(
-         figure=make_trace_graph(week_weather.max_temp(), 'Maximum temperature through the week:'),
-     )),]),
+     )),
+         html.Div(dcc.Graph(
+             figure=make_trace_graph(week_weather.max_temp(), 'Maximum temperature through the week:'),
+         ))]),
      html.Div(dcc.Graph(
          figure=make_trace_graph(week_weather.av_temp(), 'Average temperature through the week:'),
      )),
@@ -179,10 +192,10 @@ app.layout = html.Div(
          figure=make_trace_graph(week_weather.min_speed(), 'Minimum wind speed through the week:'),
      )),
      html.Div(dcc.Graph(
-         figure=make_trace_graph(week_weather.min_temp(), 'Maximum wind speed through the week:'),
+         figure=make_trace_graph(week_weather.max_speed(), 'Maximum wind speed through the week:'),
      )),
      html.Div(dcc.Graph(
-         figure=make_trace_graph(week_weather.min_temp(), 'Average wind speed through the week:'),
+         figure=make_trace_graph(week_weather.av_speed(), 'Average wind speed through the week:'),
      )),
      ],
     style={'background-image': 'url("assets/mars.jpg")', 'bottom': '0', 'right': '0', 'left': '0',
@@ -193,6 +206,10 @@ app.layout = html.Div(
 @app.callback(Output('tabs-example-content', 'children'),
               [Input('tabs-example', 'value')])
 def render_content(tab):
+    """
+    (str) -> Figure
+    Render a day table and a wind rose for the tab.
+    """
     if tab == 'tab-1':
         return html.Div([
             html.Div(dcc.Graph(

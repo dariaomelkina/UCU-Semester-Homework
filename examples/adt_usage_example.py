@@ -11,6 +11,7 @@ BASE_URL = "https://api.nasa.gov/insight_weather/?api_key=DEMO_KEY&feedtype=json
 
 
 def get_data_from_url(base_url):
+    """ Getting data from the API in a json form. """
     with urllib.request.urlopen(base_url) as response:
         data = response.read()
         data = data.decode("utf-8")
