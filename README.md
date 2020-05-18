@@ -132,5 +132,13 @@ demonstrates, which data can be get with that exact NASA's API, and uses Pandas,
 
 They are located in the 'examples' folder. 
 
+## Contributing:
+Currently, I am a sole contributor of this repository.
+
 ## Credits: 
 * Daria Omelkina, Ukrainian Catholic University, 2020
+
+## License:
+MIT License
+
+
