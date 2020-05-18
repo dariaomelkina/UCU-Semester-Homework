@@ -1,0 +1,145 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>multi_linked_list &#8212; Martian Weather Project 0.0.1 documentation</title>
+    <link rel="stylesheet" href="../_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/language_data.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Martian Weather Project 0.0.1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">Module code</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for multi_linked_list</h1><div class="highlight"><pre>
+<span></span><span class="c1"># classes implementations are partly based on Data Structures and Algorithms Using Python – R. Necaise</span>
+<span class="c1"># These classes implementations are mostly implemented for usage of a one multi-linked list node,</span>
+<span class="c1"># just like a demultiplexer, which is completely enough for my adt.</span>
+
+
+<div class="viewcode-block" id="DoubleMLinkedList"><a class="viewcode-back" href="../index.html#multi_linked_list.DoubleMLinkedList">[docs]</a><span class="k">class</span> <span class="nc">DoubleMLinkedList</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot; Class for double linked list representation. &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Create new double linked list. &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_head</span> <span class="o">=</span> <span class="n">_DoubleMLinkedListNode</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+
+<div class="viewcode-block" id="DoubleMLinkedList.head"><a class="viewcode-back" href="../index.html#multi_linked_list.DoubleMLinkedList.head">[docs]</a>    <span class="k">def</span> <span class="nf">head</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Return head of the double linked list. &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_head</span></div>
+
+<div class="viewcode-block" id="DoubleMLinkedList.add_one_way"><a class="viewcode-back" href="../index.html#multi_linked_list.DoubleMLinkedList.add_one_way">[docs]</a>    <span class="k">def</span> <span class="nf">add_one_way</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Add an item the one way of the double linked list. &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_head</span><span class="o">.</span><span class="n">one_way</span> <span class="o">=</span> <span class="n">item</span></div>
+
+<div class="viewcode-block" id="DoubleMLinkedList.add_second_way"><a class="viewcode-back" href="../index.html#multi_linked_list.DoubleMLinkedList.add_second_way">[docs]</a>    <span class="k">def</span> <span class="nf">add_second_way</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Add an item the second way of the double linked list. &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_head</span><span class="o">.</span><span class="n">second_way</span> <span class="o">=</span> <span class="n">item</span></div></div>
+
+
+<div class="viewcode-block" id="TripleMLinkedList"><a class="viewcode-back" href="../index.html#multi_linked_list.TripleMLinkedList">[docs]</a><span class="k">class</span> <span class="nc">TripleMLinkedList</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot; Class for triple linked list representation. &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Create new triple linked list. &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_head</span> <span class="o">=</span> <span class="n">_TripleMLinkedListNode</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+
+<div class="viewcode-block" id="TripleMLinkedList.head"><a class="viewcode-back" href="../index.html#multi_linked_list.TripleMLinkedList.head">[docs]</a>    <span class="k">def</span> <span class="nf">head</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Return head of the triple linked list. &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_head</span></div>
+
+<div class="viewcode-block" id="TripleMLinkedList.add_one_way"><a class="viewcode-back" href="../index.html#multi_linked_list.TripleMLinkedList.add_one_way">[docs]</a>    <span class="k">def</span> <span class="nf">add_one_way</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Add an item the one way of the triple linked list. &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_head</span><span class="o">.</span><span class="n">one_way</span> <span class="o">=</span> <span class="n">item</span></div>
+
+<div class="viewcode-block" id="TripleMLinkedList.add_second_way"><a class="viewcode-back" href="../index.html#multi_linked_list.TripleMLinkedList.add_second_way">[docs]</a>    <span class="k">def</span> <span class="nf">add_second_way</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Add an item the second way of the triple linked list. &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_head</span><span class="o">.</span><span class="n">second_way</span> <span class="o">=</span> <span class="n">item</span></div>
+
+<div class="viewcode-block" id="TripleMLinkedList.add_third_way"><a class="viewcode-back" href="../index.html#multi_linked_list.TripleMLinkedList.add_third_way">[docs]</a>    <span class="k">def</span> <span class="nf">add_third_way</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Add an item the third way of the triple linked list. &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_head</span><span class="o">.</span><span class="n">third_way</span> <span class="o">=</span> <span class="n">item</span></div></div>
+
+
+<span class="k">class</span> <span class="nc">_DoubleMLinkedListNode</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot; Class for double linked list node representation. &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Create new double linked list node. &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">item</span> <span class="o">=</span> <span class="n">item</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">one_way</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">second_way</span> <span class="o">=</span> <span class="kc">None</span>
+
+
+<span class="k">class</span> <span class="nc">_TripleMLinkedListNode</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot; Class for triple linked list node representation. &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Create new triple linked list node. &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">item</span> <span class="o">=</span> <span class="n">item</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">one_way</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">second_way</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">third_way</span> <span class="o">=</span> <span class="kc">None</span>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Martian Weather Project 0.0.1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" >Module code</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2020, Daria Omelkina.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.0.3.
+    </div>
+  </body>
+</html>

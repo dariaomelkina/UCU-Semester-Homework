@@ -1,0 +1,346 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>main &#8212; Martian Weather Project 0.0.1 documentation</title>
+    <link rel="stylesheet" href="../_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/language_data.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Martian Weather Project 0.0.1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">Module code</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for main</h1><div class="highlight"><pre>
+<span></span><span class="c1"># main module of the program</span>
+<span class="c1"># result of the executing is a web-app</span>
+<span class="kn">from</span> <span class="nn">adt_weather_data</span> <span class="kn">import</span> <span class="n">WeatherData</span>
+<span class="kn">import</span> <span class="nn">urllib.request</span>
+<span class="kn">import</span> <span class="nn">urllib.parse</span>
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">dash</span>
+<span class="kn">import</span> <span class="nn">dash_core_components</span> <span class="k">as</span> <span class="nn">dcc</span>
+<span class="kn">import</span> <span class="nn">dash_html_components</span> <span class="k">as</span> <span class="nn">html</span>
+<span class="kn">import</span> <span class="nn">plotly.graph_objects</span> <span class="k">as</span> <span class="nn">go</span>
+<span class="kn">from</span> <span class="nn">dash.dependencies</span> <span class="kn">import</span> <span class="n">Input</span><span class="p">,</span> <span class="n">Output</span>
+
+<span class="c1"># getting and preparing data</span>
+<span class="n">BASE_URL</span> <span class="o">=</span> <span class="s2">&quot;https://api.nasa.gov/insight_weather/?api_key=DEMO_KEY&amp;feedtype=json&amp;ver=1.0&quot;</span>
+
+
+
+<span class="c1"># a demo_key is used for defending private information,</span>
+<span class="c1"># if needed, it can be replaced by a developer key from NASA API website</span>
+<span class="c1"># https://api.nasa.gov</span>
+
+
+<div class="viewcode-block" id="get_data_from_url"><a class="viewcode-back" href="../index.html#main.get_data_from_url">[docs]</a><span class="k">def</span> <span class="nf">get_data_from_url</span><span class="p">(</span><span class="n">base_url</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    (str) -&gt; str</span>
+<span class="sd">    Return the data, got with url, in json-format.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">with</span> <span class="n">urllib</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">urlopen</span><span class="p">(</span><span class="n">base_url</span><span class="p">)</span> <span class="k">as</span> <span class="n">response</span><span class="p">:</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">data</span></div>
+
+<span class="n">json_data</span> <span class="o">=</span> <span class="n">get_data_from_url</span><span class="p">(</span><span class="n">BASE_URL</span><span class="p">)</span>
+
+<span class="n">week_weather</span> <span class="o">=</span> <span class="n">WeatherData</span><span class="p">(</span><span class="n">json_data</span><span class="p">)</span>
+
+
+<span class="c1"># functions for creating visual elements</span>
+<span class="c1"># return a table with data for one day</span>
+<div class="viewcode-block" id="make_day_table"><a class="viewcode-back" href="../index.html#main.make_day_table">[docs]</a><span class="k">def</span> <span class="nf">make_day_table</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    (int) -&gt; Figure</span>
+<span class="sd">    Return a table with data for the n-th day of the week.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">day</span> <span class="o">=</span> <span class="n">week_weather</span><span class="o">.</span><span class="n">day</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+    <span class="n">fig</span> <span class="o">=</span> <span class="n">go</span><span class="o">.</span><span class="n">Figure</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="p">[</span><span class="n">go</span><span class="o">.</span><span class="n">Table</span><span class="p">(</span>
+        <span class="n">header</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">values</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;MARTIAN DAY </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">day</span><span class="p">[</span><span class="mi">0</span><span class="p">])],</span> <span class="n">line_color</span><span class="o">=</span><span class="s1">&#39;DarkOrange&#39;</span><span class="p">,</span>
+                    <span class="n">fill_color</span><span class="o">=</span><span class="s1">&#39;PeachPuff&#39;</span><span class="p">,</span>
+                    <span class="n">height</span><span class="o">=</span><span class="mi">40</span><span class="p">,</span>
+                    <span class="n">font</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">family</span><span class="o">=</span><span class="s1">&#39;Courier New, monospace&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;DarkOrange&#39;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">32</span><span class="p">)),</span>
+        <span class="n">cells</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">values</span><span class="o">=</span><span class="p">[[</span><span class="s1">&#39;Average temperature: </span><span class="si">{}</span><span class="s1"> °F&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">day</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span>
+                            <span class="s1">&#39;Average pressure: </span><span class="si">{}</span><span class="s1"> Pa&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">day</span><span class="p">[</span><span class="mi">2</span><span class="p">]),</span>
+                            <span class="s1">&#39;Average wind speed: </span><span class="si">{}</span><span class="s1"> m/s&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">day</span><span class="p">[</span><span class="mi">3</span><span class="p">])],</span> <span class="p">],</span> <span class="n">line_color</span><span class="o">=</span><span class="s1">&#39;DarkOrange&#39;</span><span class="p">,</span>
+                   <span class="n">fill_color</span><span class="o">=</span><span class="s1">&#39;OldLace&#39;</span><span class="p">,</span> <span class="n">align</span><span class="o">=</span><span class="s1">&#39;left&#39;</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">40</span><span class="p">,</span>
+                   <span class="n">font</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">family</span><span class="o">=</span><span class="s1">&#39;Courier New, monospace&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;grey&#39;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">23</span><span class="p">))),</span>
+    <span class="p">])</span>
+    <span class="n">fig</span><span class="o">.</span><span class="n">update_layout</span><span class="p">(</span><span class="n">layout</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">fig</span></div>
+
+
+<span class="c1"># return the wind rose</span>
+<div class="viewcode-block" id="make_wind_rose"><a class="viewcode-back" href="../index.html#main.make_wind_rose">[docs]</a><span class="k">def</span> <span class="nf">make_wind_rose</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    (int) -&gt; Figure</span>
+<span class="sd">    Return a wind rose for the n-th day of the week.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">day_wind_rose</span> <span class="o">=</span> <span class="n">week_weather</span><span class="o">.</span><span class="n">wind_rose</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+    <span class="n">lst</span> <span class="o">=</span> <span class="n">day_wind_rose</span><span class="o">.</span><span class="n">head</span><span class="p">()</span><span class="o">.</span><span class="n">item</span>
+    <span class="n">t</span> <span class="o">=</span> <span class="n">day_wind_rose</span><span class="o">.</span><span class="n">head</span><span class="p">()</span><span class="o">.</span><span class="n">next</span>
+    <span class="n">fig</span> <span class="o">=</span> <span class="n">go</span><span class="o">.</span><span class="n">Figure</span><span class="p">(</span><span class="n">go</span><span class="o">.</span><span class="n">Barpolar</span><span class="p">(</span><span class="n">r</span><span class="o">=</span><span class="p">[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">lst</span><span class="p">],</span>
+                                <span class="n">theta</span><span class="o">=</span><span class="p">[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">t</span><span class="p">],</span>
+                                <span class="n">marker_color</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;coral&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">lst</span><span class="p">),</span>
+                                <span class="p">))</span>
+    <span class="n">fig</span><span class="o">.</span><span class="n">update_layout</span><span class="p">(</span>
+        <span class="n">template</span><span class="o">=</span><span class="s1">&#39;plotly_dark&#39;</span><span class="p">,</span>
+        <span class="n">autosize</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">width</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span>
+        <span class="n">height</span><span class="o">=</span><span class="mi">450</span><span class="p">,</span>
+        <span class="n">title</span><span class="o">=</span><span class="s1">&#39;Wind Direction Distribution&#39;</span><span class="p">,</span>
+        <span class="n">font</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;size&#39;</span><span class="p">:</span> <span class="mi">16</span><span class="p">},</span>
+        <span class="n">title_x</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">fig</span><span class="o">.</span><span class="n">update_layout</span><span class="p">(</span><span class="n">layout</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">fig</span></div>
+
+
+<span class="c1"># return the line graph</span>
+<div class="viewcode-block" id="make_trace_graph"><a class="viewcode-back" href="../index.html#main.make_trace_graph">[docs]</a><span class="k">def</span> <span class="nf">make_trace_graph</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    (int) -&gt; Figure</span>
+<span class="sd">    Return a line graph with the data for all the days of the week.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">fig</span> <span class="o">=</span> <span class="n">go</span><span class="o">.</span><span class="n">Figure</span><span class="p">()</span>
+    <span class="n">fig</span><span class="o">.</span><span class="n">add_trace</span><span class="p">(</span><span class="n">go</span><span class="o">.</span><span class="n">Scatter</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="p">[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">week_weather</span><span class="o">.</span><span class="n">days_list</span><span class="p">()],</span> <span class="n">y</span><span class="o">=</span><span class="p">[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">data</span><span class="p">],</span>
+                             <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;lines&#39;</span><span class="p">,</span>
+                             <span class="n">name</span><span class="o">=</span><span class="s1">&#39;lines&#39;</span><span class="p">))</span>
+    <span class="n">fig</span><span class="o">.</span><span class="n">update_layout</span><span class="p">(</span><span class="n">layout</span><span class="p">)</span>
+    <span class="n">fig</span><span class="o">.</span><span class="n">update_layout</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="n">name</span><span class="p">,</span> <span class="n">template</span><span class="o">=</span><span class="s1">&#39;plotly_dark&#39;</span><span class="p">,</span> <span class="n">font</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;size&#39;</span><span class="p">:</span> <span class="mi">16</span><span class="p">},</span> <span class="n">height</span><span class="o">=</span><span class="mi">380</span><span class="p">,</span>
+                      <span class="p">)</span>
+    <span class="k">return</span> <span class="n">fig</span></div>
+
+
+<span class="c1"># main part</span>
+<span class="n">external_stylesheets</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;https://codepen.io/chriddyp/pen/bWLwgP.css&#39;</span><span class="p">,</span> <span class="s1">&#39;url(assets/reset.css)&#39;</span><span class="p">]</span>
+
+<span class="n">layout</span> <span class="o">=</span> <span class="n">go</span><span class="o">.</span><span class="n">Layout</span><span class="p">(</span>
+    <span class="n">paper_bgcolor</span><span class="o">=</span><span class="s1">&#39;rgba(0,0,0,0)&#39;</span><span class="p">,</span>
+    <span class="n">plot_bgcolor</span><span class="o">=</span><span class="s1">&#39;rgba(0,0,0,0)&#39;</span>
+<span class="p">)</span>
+
+<span class="n">app</span> <span class="o">=</span> <span class="n">dash</span><span class="o">.</span><span class="n">Dash</span><span class="p">(</span><span class="vm">__name__</span><span class="p">,</span> <span class="n">external_stylesheets</span><span class="o">=</span><span class="n">external_stylesheets</span><span class="p">)</span>
+<span class="n">app</span><span class="o">.</span><span class="n">css</span><span class="o">.</span><span class="n">append_css</span><span class="p">({</span>
+    <span class="s2">&quot;external_url&quot;</span><span class="p">:</span> <span class="s2">&quot;https://codepen.io/chriddyp/pen/bWLwgP.css&quot;</span>
+<span class="p">})</span>
+<span class="n">app</span><span class="o">.</span><span class="n">layout</span> <span class="o">=</span> <span class="n">html</span><span class="o">.</span><span class="n">Div</span><span class="p">(</span>
+    <span class="p">[</span><span class="n">html</span><span class="o">.</span><span class="n">H1</span><span class="p">(</span><span class="n">children</span><span class="o">=</span><span class="s1">&#39;MARTIAN WEATHER PROJECT&#39;</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="p">{</span>
+        <span class="s1">&#39;textAlign&#39;</span><span class="p">:</span> <span class="s1">&#39;center&#39;</span><span class="p">,</span> <span class="s1">&#39;color&#39;</span><span class="p">:</span> <span class="s1">&#39;white&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;text-shadow&#39;</span><span class="p">:</span> <span class="s1">&#39;0 0 20px #fff, 0 0 30px coral, 0 0 40px coral, &#39;</span>
+                       <span class="s1">&#39;0 0 50px coral, 0 0 60px coral, 0 0 70px coral, 0 0 80px coral&#39;</span><span class="p">}),</span>
+
+     <span class="n">html</span><span class="o">.</span><span class="n">H4</span><span class="p">(</span><span class="s1">&#39;Select one Sol (Martian day):&#39;</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;white-space&quot;</span><span class="p">:</span> <span class="s2">&quot;pre&quot;</span><span class="p">,</span> <span class="s1">&#39;color&#39;</span><span class="p">:</span> <span class="s1">&#39;white&#39;</span><span class="p">,</span>
+                                                     <span class="s1">&#39;text-shadow&#39;</span><span class="p">:</span> <span class="s1">&#39;0 0 20px #fff, 0 0 30px coral, 0 0 40px coral&#39;</span><span class="p">}),</span>
+     <span class="n">dcc</span><span class="o">.</span><span class="n">Tabs</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="s1">&#39;tabs-example&#39;</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="s1">&#39;tab-1&#39;</span><span class="p">,</span> <span class="n">children</span><span class="o">=</span><span class="p">[</span>
+         <span class="n">dcc</span><span class="o">.</span><span class="n">Tab</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">week_weather</span><span class="o">.</span><span class="n">days_list</span><span class="p">()[</span><span class="mi">0</span><span class="p">]),</span> <span class="n">value</span><span class="o">=</span><span class="s1">&#39;tab-1&#39;</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;color&#39;</span><span class="p">:</span> <span class="s1">&#39;DarkOrange&#39;</span><span class="p">},</span>
+                 <span class="n">selected_style</span><span class="o">=</span><span class="p">{</span>
+                     <span class="s1">&#39;backgroundColor&#39;</span><span class="p">:</span> <span class="s1">&#39;OldLace&#39;</span><span class="p">,</span>
+                     <span class="s1">&#39;color&#39;</span><span class="p">:</span> <span class="s1">&#39;grey&#39;</span><span class="p">,</span>
+                 <span class="p">}),</span>
+         <span class="n">dcc</span><span class="o">.</span><span class="n">Tab</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">week_weather</span><span class="o">.</span><span class="n">days_list</span><span class="p">()[</span><span class="mi">1</span><span class="p">]),</span> <span class="n">value</span><span class="o">=</span><span class="s1">&#39;tab-2&#39;</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;color&#39;</span><span class="p">:</span> <span class="s1">&#39;DarkOrange&#39;</span><span class="p">},</span>
+                 <span class="n">selected_style</span><span class="o">=</span><span class="p">{</span>
+                     <span class="s1">&#39;backgroundColor&#39;</span><span class="p">:</span> <span class="s1">&#39;OldLace&#39;</span><span class="p">,</span>
+                     <span class="s1">&#39;color&#39;</span><span class="p">:</span> <span class="s1">&#39;grey&#39;</span><span class="p">,</span>
+                 <span class="p">}),</span>
+         <span class="n">dcc</span><span class="o">.</span><span class="n">Tab</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">week_weather</span><span class="o">.</span><span class="n">days_list</span><span class="p">()[</span><span class="mi">2</span><span class="p">]),</span> <span class="n">value</span><span class="o">=</span><span class="s1">&#39;tab-3&#39;</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;color&#39;</span><span class="p">:</span> <span class="s1">&#39;DarkOrange&#39;</span><span class="p">},</span>
+                 <span class="n">selected_style</span><span class="o">=</span><span class="p">{</span>
+                     <span class="s1">&#39;backgroundColor&#39;</span><span class="p">:</span> <span class="s1">&#39;OldLace&#39;</span><span class="p">,</span>
+                     <span class="s1">&#39;color&#39;</span><span class="p">:</span> <span class="s1">&#39;grey&#39;</span><span class="p">,</span>
+                 <span class="p">}),</span>
+         <span class="n">dcc</span><span class="o">.</span><span class="n">Tab</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">week_weather</span><span class="o">.</span><span class="n">days_list</span><span class="p">()[</span><span class="mi">3</span><span class="p">]),</span> <span class="n">value</span><span class="o">=</span><span class="s1">&#39;tab-4&#39;</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;color&#39;</span><span class="p">:</span> <span class="s1">&#39;DarkOrange&#39;</span><span class="p">},</span>
+                 <span class="n">selected_style</span><span class="o">=</span><span class="p">{</span>
+                     <span class="s1">&#39;backgroundColor&#39;</span><span class="p">:</span> <span class="s1">&#39;OldLace&#39;</span><span class="p">,</span>
+                     <span class="s1">&#39;color&#39;</span><span class="p">:</span> <span class="s1">&#39;grey&#39;</span><span class="p">,</span>
+                 <span class="p">}),</span>
+         <span class="n">dcc</span><span class="o">.</span><span class="n">Tab</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">week_weather</span><span class="o">.</span><span class="n">days_list</span><span class="p">()[</span><span class="mi">4</span><span class="p">]),</span> <span class="n">value</span><span class="o">=</span><span class="s1">&#39;tab-5&#39;</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;color&#39;</span><span class="p">:</span> <span class="s1">&#39;DarkOrange&#39;</span><span class="p">},</span>
+                 <span class="n">selected_style</span><span class="o">=</span><span class="p">{</span>
+                     <span class="s1">&#39;backgroundColor&#39;</span><span class="p">:</span> <span class="s1">&#39;OldLace&#39;</span><span class="p">,</span>
+                     <span class="s1">&#39;color&#39;</span><span class="p">:</span> <span class="s1">&#39;grey&#39;</span><span class="p">,</span>
+                 <span class="p">}),</span>
+         <span class="n">dcc</span><span class="o">.</span><span class="n">Tab</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">week_weather</span><span class="o">.</span><span class="n">days_list</span><span class="p">()[</span><span class="mi">5</span><span class="p">]),</span> <span class="n">value</span><span class="o">=</span><span class="s1">&#39;tab-6&#39;</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;color&#39;</span><span class="p">:</span> <span class="s1">&#39;DarkOrange&#39;</span><span class="p">},</span>
+                 <span class="n">selected_style</span><span class="o">=</span><span class="p">{</span>
+                     <span class="s1">&#39;backgroundColor&#39;</span><span class="p">:</span> <span class="s1">&#39;OldLace&#39;</span><span class="p">,</span>
+                     <span class="s1">&#39;color&#39;</span><span class="p">:</span> <span class="s1">&#39;grey&#39;</span><span class="p">,</span>
+                 <span class="p">}),</span>
+         <span class="n">dcc</span><span class="o">.</span><span class="n">Tab</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">week_weather</span><span class="o">.</span><span class="n">days_list</span><span class="p">()[</span><span class="mi">6</span><span class="p">]),</span> <span class="n">value</span><span class="o">=</span><span class="s1">&#39;tab-7&#39;</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;color&#39;</span><span class="p">:</span> <span class="s1">&#39;DarkOrange&#39;</span><span class="p">},</span>
+                 <span class="n">selected_style</span><span class="o">=</span><span class="p">{</span>
+                     <span class="s1">&#39;backgroundColor&#39;</span><span class="p">:</span> <span class="s1">&#39;OldLace&#39;</span><span class="p">,</span>
+                     <span class="s1">&#39;color&#39;</span><span class="p">:</span> <span class="s1">&#39;grey&#39;</span><span class="p">,</span>
+                 <span class="p">}),</span>
+
+     <span class="p">],</span> <span class="n">colors</span><span class="o">=</span><span class="p">{</span>
+         <span class="s2">&quot;border&quot;</span><span class="p">:</span> <span class="s2">&quot;OldLace&quot;</span><span class="p">,</span>
+         <span class="s2">&quot;primary&quot;</span><span class="p">:</span> <span class="s2">&quot;gold&quot;</span><span class="p">,</span>
+         <span class="s2">&quot;background&quot;</span><span class="p">:</span> <span class="s2">&quot;PeachPuff&quot;</span>
+     <span class="p">},</span> <span class="n">style</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;width&#39;</span><span class="p">:</span> <span class="s1">&#39;500px&#39;</span><span class="p">}),</span>
+     <span class="n">html</span><span class="o">.</span><span class="n">Div</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="s1">&#39;tabs-example-content&#39;</span><span class="p">),</span>
+     <span class="n">dcc</span><span class="o">.</span><span class="n">Markdown</span><span class="p">(</span><span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">         ###### Welcome to Martian Weather Project! Here you can check latest weather tendencies on the planet Mars. </span>
+<span class="s1">         ###### The project uses NASA&#39;s InSight: Mars Weather Service API to obtain the most recent information.</span>
+<span class="s1">         ###### For more information about the weather have a look these graphic:</span>
+<span class="s1">     &#39;&#39;&#39;</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;color&#39;</span><span class="p">:</span> <span class="s1">&#39;white&#39;</span><span class="p">}),</span>
+     <span class="n">dcc</span><span class="o">.</span><span class="n">Markdown</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;white-space&quot;</span><span class="p">:</span> <span class="s2">&quot;pre&quot;</span><span class="p">,</span> <span class="s1">&#39;color&#39;</span><span class="p">:</span> <span class="s1">&#39;black&#39;</span><span class="p">}),</span>
+     <span class="n">html</span><span class="o">.</span><span class="n">Div</span><span class="p">([</span><span class="n">html</span><span class="o">.</span><span class="n">Div</span><span class="p">(</span><span class="n">dcc</span><span class="o">.</span><span class="n">Graph</span><span class="p">(</span>
+         <span class="n">figure</span><span class="o">=</span><span class="n">make_trace_graph</span><span class="p">(</span><span class="n">week_weather</span><span class="o">.</span><span class="n">min_temp</span><span class="p">(),</span> <span class="s1">&#39;Minimum temperature through the week:&#39;</span><span class="p">),</span>
+     <span class="p">)),</span>
+         <span class="n">html</span><span class="o">.</span><span class="n">Div</span><span class="p">(</span><span class="n">dcc</span><span class="o">.</span><span class="n">Graph</span><span class="p">(</span>
+             <span class="n">figure</span><span class="o">=</span><span class="n">make_trace_graph</span><span class="p">(</span><span class="n">week_weather</span><span class="o">.</span><span class="n">max_temp</span><span class="p">(),</span> <span class="s1">&#39;Maximum temperature through the week:&#39;</span><span class="p">),</span>
+         <span class="p">))]),</span>
+     <span class="n">html</span><span class="o">.</span><span class="n">Div</span><span class="p">(</span><span class="n">dcc</span><span class="o">.</span><span class="n">Graph</span><span class="p">(</span>
+         <span class="n">figure</span><span class="o">=</span><span class="n">make_trace_graph</span><span class="p">(</span><span class="n">week_weather</span><span class="o">.</span><span class="n">av_temp</span><span class="p">(),</span> <span class="s1">&#39;Average temperature through the week:&#39;</span><span class="p">),</span>
+     <span class="p">)),</span>
+     <span class="n">html</span><span class="o">.</span><span class="n">Div</span><span class="p">(</span><span class="n">dcc</span><span class="o">.</span><span class="n">Graph</span><span class="p">(</span>
+         <span class="n">figure</span><span class="o">=</span><span class="n">make_trace_graph</span><span class="p">(</span><span class="n">week_weather</span><span class="o">.</span><span class="n">min_pres</span><span class="p">(),</span> <span class="s1">&#39;Minimum pressure through the week:&#39;</span><span class="p">),</span>
+     <span class="p">)),</span>
+     <span class="n">html</span><span class="o">.</span><span class="n">Div</span><span class="p">(</span><span class="n">dcc</span><span class="o">.</span><span class="n">Graph</span><span class="p">(</span>
+         <span class="n">figure</span><span class="o">=</span><span class="n">make_trace_graph</span><span class="p">(</span><span class="n">week_weather</span><span class="o">.</span><span class="n">max_pres</span><span class="p">(),</span> <span class="s1">&#39;Maximum pressure through the week:&#39;</span><span class="p">),</span>
+     <span class="p">)),</span>
+     <span class="n">html</span><span class="o">.</span><span class="n">Div</span><span class="p">(</span><span class="n">dcc</span><span class="o">.</span><span class="n">Graph</span><span class="p">(</span>
+         <span class="n">figure</span><span class="o">=</span><span class="n">make_trace_graph</span><span class="p">(</span><span class="n">week_weather</span><span class="o">.</span><span class="n">av_pres</span><span class="p">(),</span> <span class="s1">&#39;Average pressure through the week:&#39;</span><span class="p">),</span>
+     <span class="p">)),</span>
+     <span class="n">html</span><span class="o">.</span><span class="n">Div</span><span class="p">(</span><span class="n">dcc</span><span class="o">.</span><span class="n">Graph</span><span class="p">(</span>
+         <span class="n">figure</span><span class="o">=</span><span class="n">make_trace_graph</span><span class="p">(</span><span class="n">week_weather</span><span class="o">.</span><span class="n">min_speed</span><span class="p">(),</span> <span class="s1">&#39;Minimum wind speed through the week:&#39;</span><span class="p">),</span>
+     <span class="p">)),</span>
+     <span class="n">html</span><span class="o">.</span><span class="n">Div</span><span class="p">(</span><span class="n">dcc</span><span class="o">.</span><span class="n">Graph</span><span class="p">(</span>
+         <span class="n">figure</span><span class="o">=</span><span class="n">make_trace_graph</span><span class="p">(</span><span class="n">week_weather</span><span class="o">.</span><span class="n">max_speed</span><span class="p">(),</span> <span class="s1">&#39;Maximum wind speed through the week:&#39;</span><span class="p">),</span>
+     <span class="p">)),</span>
+     <span class="n">html</span><span class="o">.</span><span class="n">Div</span><span class="p">(</span><span class="n">dcc</span><span class="o">.</span><span class="n">Graph</span><span class="p">(</span>
+         <span class="n">figure</span><span class="o">=</span><span class="n">make_trace_graph</span><span class="p">(</span><span class="n">week_weather</span><span class="o">.</span><span class="n">av_speed</span><span class="p">(),</span> <span class="s1">&#39;Average wind speed through the week:&#39;</span><span class="p">),</span>
+     <span class="p">)),</span>
+     <span class="p">],</span>
+    <span class="n">style</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;background-image&#39;</span><span class="p">:</span> <span class="s1">&#39;url(&quot;assets/mars.jpg&quot;)&#39;</span><span class="p">,</span> <span class="s1">&#39;bottom&#39;</span><span class="p">:</span> <span class="s1">&#39;0&#39;</span><span class="p">,</span> <span class="s1">&#39;right&#39;</span><span class="p">:</span> <span class="s1">&#39;0&#39;</span><span class="p">,</span> <span class="s1">&#39;left&#39;</span><span class="p">:</span> <span class="s1">&#39;0&#39;</span><span class="p">,</span>
+           <span class="s1">&#39;top&#39;</span><span class="p">:</span> <span class="s1">&#39;0&#39;</span><span class="p">}</span>
+<span class="p">)</span>
+
+
+<div class="viewcode-block" id="render_content"><a class="viewcode-back" href="../index.html#main.render_content">[docs]</a><span class="nd">@app</span><span class="o">.</span><span class="n">callback</span><span class="p">(</span><span class="n">Output</span><span class="p">(</span><span class="s1">&#39;tabs-example-content&#39;</span><span class="p">,</span> <span class="s1">&#39;children&#39;</span><span class="p">),</span>
+              <span class="p">[</span><span class="n">Input</span><span class="p">(</span><span class="s1">&#39;tabs-example&#39;</span><span class="p">,</span> <span class="s1">&#39;value&#39;</span><span class="p">)])</span>
+<span class="k">def</span> <span class="nf">render_content</span><span class="p">(</span><span class="n">tab</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    (str) -&gt; Figure</span>
+<span class="sd">    Render a day table and a wind rose for the tab.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">tab</span> <span class="o">==</span> <span class="s1">&#39;tab-1&#39;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">html</span><span class="o">.</span><span class="n">Div</span><span class="p">([</span>
+            <span class="n">html</span><span class="o">.</span><span class="n">Div</span><span class="p">(</span><span class="n">dcc</span><span class="o">.</span><span class="n">Graph</span><span class="p">(</span>
+                <span class="n">figure</span><span class="o">=</span><span class="n">make_day_table</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span>
+                <span class="n">style</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;width&#39;</span><span class="p">:</span> <span class="mi">500</span><span class="p">,</span> <span class="s1">&#39;left&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">}),</span> <span class="n">style</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;display&#39;</span><span class="p">:</span> <span class="s1">&#39;inline-block&#39;</span><span class="p">},</span> <span class="p">),</span>
+            <span class="n">html</span><span class="o">.</span><span class="n">Div</span><span class="p">(</span><span class="n">dcc</span><span class="o">.</span><span class="n">Graph</span><span class="p">(</span><span class="n">figure</span><span class="o">=</span><span class="n">make_wind_rose</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="n">style</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;left&#39;</span><span class="p">:</span> <span class="mi">100</span><span class="p">}),</span> <span class="n">style</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;display&#39;</span><span class="p">:</span> <span class="s1">&#39;inline-block&#39;</span><span class="p">},</span> <span class="p">)</span>
+        <span class="p">])</span>
+    <span class="k">elif</span> <span class="n">tab</span> <span class="o">==</span> <span class="s1">&#39;tab-2&#39;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">html</span><span class="o">.</span><span class="n">Div</span><span class="p">([</span>
+            <span class="n">html</span><span class="o">.</span><span class="n">Div</span><span class="p">(</span><span class="n">dcc</span><span class="o">.</span><span class="n">Graph</span><span class="p">(</span>
+                <span class="n">figure</span><span class="o">=</span><span class="n">make_day_table</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span>
+                <span class="n">style</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;width&#39;</span><span class="p">:</span> <span class="mi">500</span><span class="p">,</span> <span class="s1">&#39;left&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">}),</span> <span class="n">style</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;display&#39;</span><span class="p">:</span> <span class="s1">&#39;inline-block&#39;</span><span class="p">},</span> <span class="p">),</span>
+            <span class="n">html</span><span class="o">.</span><span class="n">Div</span><span class="p">(</span><span class="n">dcc</span><span class="o">.</span><span class="n">Graph</span><span class="p">(</span><span class="n">figure</span><span class="o">=</span><span class="n">make_wind_rose</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">style</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;left&#39;</span><span class="p">:</span> <span class="mi">100</span><span class="p">}),</span> <span class="n">style</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;display&#39;</span><span class="p">:</span> <span class="s1">&#39;inline-block&#39;</span><span class="p">},</span> <span class="p">)</span>
+        <span class="p">])</span>
+    <span class="k">elif</span> <span class="n">tab</span> <span class="o">==</span> <span class="s1">&#39;tab-3&#39;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">html</span><span class="o">.</span><span class="n">Div</span><span class="p">([</span>
+            <span class="n">html</span><span class="o">.</span><span class="n">Div</span><span class="p">(</span><span class="n">dcc</span><span class="o">.</span><span class="n">Graph</span><span class="p">(</span>
+                <span class="n">figure</span><span class="o">=</span><span class="n">make_day_table</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span>
+                <span class="n">style</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;width&#39;</span><span class="p">:</span> <span class="mi">500</span><span class="p">,</span> <span class="s1">&#39;left&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">}),</span> <span class="n">style</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;display&#39;</span><span class="p">:</span> <span class="s1">&#39;inline-block&#39;</span><span class="p">},</span> <span class="p">),</span>
+            <span class="n">html</span><span class="o">.</span><span class="n">Div</span><span class="p">(</span><span class="n">dcc</span><span class="o">.</span><span class="n">Graph</span><span class="p">(</span><span class="n">figure</span><span class="o">=</span><span class="n">make_wind_rose</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="n">style</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;left&#39;</span><span class="p">:</span> <span class="mi">100</span><span class="p">}),</span> <span class="n">style</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;display&#39;</span><span class="p">:</span> <span class="s1">&#39;inline-block&#39;</span><span class="p">},</span> <span class="p">)</span>
+        <span class="p">])</span>
+    <span class="k">elif</span> <span class="n">tab</span> <span class="o">==</span> <span class="s1">&#39;tab-4&#39;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">html</span><span class="o">.</span><span class="n">Div</span><span class="p">([</span>
+            <span class="n">html</span><span class="o">.</span><span class="n">Div</span><span class="p">(</span><span class="n">dcc</span><span class="o">.</span><span class="n">Graph</span><span class="p">(</span>
+                <span class="n">figure</span><span class="o">=</span><span class="n">make_day_table</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span>
+                <span class="n">style</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;width&#39;</span><span class="p">:</span> <span class="mi">500</span><span class="p">,</span> <span class="s1">&#39;left&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">}),</span> <span class="n">style</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;display&#39;</span><span class="p">:</span> <span class="s1">&#39;inline-block&#39;</span><span class="p">},</span> <span class="p">),</span>
+            <span class="n">html</span><span class="o">.</span><span class="n">Div</span><span class="p">(</span><span class="n">dcc</span><span class="o">.</span><span class="n">Graph</span><span class="p">(</span><span class="n">figure</span><span class="o">=</span><span class="n">make_wind_rose</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span> <span class="n">style</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;left&#39;</span><span class="p">:</span> <span class="mi">100</span><span class="p">}),</span> <span class="n">style</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;display&#39;</span><span class="p">:</span> <span class="s1">&#39;inline-block&#39;</span><span class="p">},</span> <span class="p">)</span>
+        <span class="p">])</span>
+    <span class="k">elif</span> <span class="n">tab</span> <span class="o">==</span> <span class="s1">&#39;tab-5&#39;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">html</span><span class="o">.</span><span class="n">Div</span><span class="p">([</span>
+            <span class="n">html</span><span class="o">.</span><span class="n">Div</span><span class="p">(</span><span class="n">dcc</span><span class="o">.</span><span class="n">Graph</span><span class="p">(</span>
+                <span class="n">figure</span><span class="o">=</span><span class="n">make_day_table</span><span class="p">(</span><span class="mi">4</span><span class="p">),</span>
+                <span class="n">style</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;width&#39;</span><span class="p">:</span> <span class="mi">500</span><span class="p">,</span> <span class="s1">&#39;left&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">}),</span> <span class="n">style</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;display&#39;</span><span class="p">:</span> <span class="s1">&#39;inline-block&#39;</span><span class="p">},</span> <span class="p">),</span>
+            <span class="n">html</span><span class="o">.</span><span class="n">Div</span><span class="p">(</span><span class="n">dcc</span><span class="o">.</span><span class="n">Graph</span><span class="p">(</span><span class="n">figure</span><span class="o">=</span><span class="n">make_wind_rose</span><span class="p">(</span><span class="mi">4</span><span class="p">),</span> <span class="n">style</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;left&#39;</span><span class="p">:</span> <span class="mi">100</span><span class="p">}),</span> <span class="n">style</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;display&#39;</span><span class="p">:</span> <span class="s1">&#39;inline-block&#39;</span><span class="p">},</span> <span class="p">)</span>
+        <span class="p">])</span>
+    <span class="k">elif</span> <span class="n">tab</span> <span class="o">==</span> <span class="s1">&#39;tab-6&#39;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">html</span><span class="o">.</span><span class="n">Div</span><span class="p">([</span>
+            <span class="n">html</span><span class="o">.</span><span class="n">Div</span><span class="p">(</span><span class="n">dcc</span><span class="o">.</span><span class="n">Graph</span><span class="p">(</span>
+                <span class="n">figure</span><span class="o">=</span><span class="n">make_day_table</span><span class="p">(</span><span class="mi">5</span><span class="p">),</span>
+                <span class="n">style</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;width&#39;</span><span class="p">:</span> <span class="mi">500</span><span class="p">,</span> <span class="s1">&#39;left&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">}),</span> <span class="n">style</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;display&#39;</span><span class="p">:</span> <span class="s1">&#39;inline-block&#39;</span><span class="p">},</span> <span class="p">),</span>
+            <span class="n">html</span><span class="o">.</span><span class="n">Div</span><span class="p">(</span><span class="n">dcc</span><span class="o">.</span><span class="n">Graph</span><span class="p">(</span><span class="n">figure</span><span class="o">=</span><span class="n">make_wind_rose</span><span class="p">(</span><span class="mi">5</span><span class="p">),</span> <span class="n">style</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;left&#39;</span><span class="p">:</span> <span class="mi">100</span><span class="p">}),</span> <span class="n">style</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;display&#39;</span><span class="p">:</span> <span class="s1">&#39;inline-block&#39;</span><span class="p">},</span> <span class="p">)</span>
+        <span class="p">])</span>
+    <span class="k">elif</span> <span class="n">tab</span> <span class="o">==</span> <span class="s1">&#39;tab-7&#39;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">html</span><span class="o">.</span><span class="n">Div</span><span class="p">([</span>
+            <span class="n">html</span><span class="o">.</span><span class="n">Div</span><span class="p">(</span><span class="n">dcc</span><span class="o">.</span><span class="n">Graph</span><span class="p">(</span>
+                <span class="n">figure</span><span class="o">=</span><span class="n">make_day_table</span><span class="p">(</span><span class="mi">6</span><span class="p">),</span>
+                <span class="n">style</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;width&#39;</span><span class="p">:</span> <span class="mi">500</span><span class="p">,</span> <span class="s1">&#39;left&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">}),</span> <span class="n">style</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;display&#39;</span><span class="p">:</span> <span class="s1">&#39;inline-block&#39;</span><span class="p">},</span> <span class="p">),</span>
+            <span class="n">html</span><span class="o">.</span><span class="n">Div</span><span class="p">(</span><span class="n">dcc</span><span class="o">.</span><span class="n">Graph</span><span class="p">(</span><span class="n">figure</span><span class="o">=</span><span class="n">make_wind_rose</span><span class="p">(</span><span class="mi">6</span><span class="p">),</span> <span class="n">style</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;left&#39;</span><span class="p">:</span> <span class="mi">100</span><span class="p">}),</span> <span class="n">style</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;display&#39;</span><span class="p">:</span> <span class="s1">&#39;inline-block&#39;</span><span class="p">},</span> <span class="p">)</span>
+        <span class="p">])</span></div>
+
+
+<span class="n">server</span> <span class="o">=</span> <span class="n">app</span><span class="o">.</span><span class="n">server</span>
+<span class="n">dev_server</span> <span class="o">=</span> <span class="n">app</span><span class="o">.</span><span class="n">run_server</span>
+
+<span class="c1"># run the program</span>
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">app</span><span class="o">.</span><span class="n">run_server</span><span class="p">(</span><span class="n">debug</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Martian Weather Project 0.0.1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" >Module code</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2020, Daria Omelkina.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.0.3.
+    </div>
+  </body>
+</html>

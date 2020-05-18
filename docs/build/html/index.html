@@ -1,0 +1,339 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Welcome to Martian Weather’s documentation! &#8212; Martian Weather Project 0.0.1 documentation</title>
+    <link rel="stylesheet" href="_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/language_data.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="#">Martian Weather Project 0.0.1 documentation</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-main">
+<span id="welcome-to-martian-weather-s-documentation"></span><h1>Welcome to Martian Weather’s documentation!<a class="headerlink" href="#module-main" title="Permalink to this headline">¶</a></h1>
+<dl class="py function">
+<dt id="main.get_data_from_url">
+<code class="sig-prename descclassname">main.</code><code class="sig-name descname">get_data_from_url</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">base_url</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/main.html#get_data_from_url"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#main.get_data_from_url" title="Permalink to this definition">¶</a></dt>
+<dd><p>(str) -&gt; str
+Return the data, got with url, in json-format.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="main.make_day_table">
+<code class="sig-prename descclassname">main.</code><code class="sig-name descname">make_day_table</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">n</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/main.html#make_day_table"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#main.make_day_table" title="Permalink to this definition">¶</a></dt>
+<dd><p>(int) -&gt; Figure
+Return a table with data for the n-th day of the week.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="main.make_trace_graph">
+<code class="sig-prename descclassname">main.</code><code class="sig-name descname">make_trace_graph</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data</span></em>, <em class="sig-param"><span class="n">name</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/main.html#make_trace_graph"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#main.make_trace_graph" title="Permalink to this definition">¶</a></dt>
+<dd><p>(int) -&gt; Figure
+Return a line graph with the data for all the days of the week.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="main.make_wind_rose">
+<code class="sig-prename descclassname">main.</code><code class="sig-name descname">make_wind_rose</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">n</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/main.html#make_wind_rose"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#main.make_wind_rose" title="Permalink to this definition">¶</a></dt>
+<dd><p>(int) -&gt; Figure
+Return a wind rose for the n-th day of the week.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="main.render_content">
+<code class="sig-prename descclassname">main.</code><code class="sig-name descname">render_content</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">tab</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/main.html#render_content"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#main.render_content" title="Permalink to this definition">¶</a></dt>
+<dd><p>(str) -&gt; Figure
+Render a day table and a wind rose for the tab.</p>
+</dd></dl>
+
+<span class="target" id="module-adt_weather_data"></span><dl class="py class">
+<dt id="adt_weather_data.WeatherData">
+<em class="property">class </em><code class="sig-prename descclassname">adt_weather_data.</code><code class="sig-name descname">WeatherData</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/adt_weather_data.html#WeatherData"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#adt_weather_data.WeatherData" title="Permalink to this definition">¶</a></dt>
+<dd><p>Class for weather data container representation.</p>
+<dl class="py method">
+<dt id="adt_weather_data.WeatherData.av_pres">
+<code class="sig-name descname">av_pres</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/adt_weather_data.html#WeatherData.av_pres"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#adt_weather_data.WeatherData.av_pres" title="Permalink to this definition">¶</a></dt>
+<dd><p>(WeatherData) -&gt; List
+Return list with average pressure of the week.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="adt_weather_data.WeatherData.av_speed">
+<code class="sig-name descname">av_speed</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/adt_weather_data.html#WeatherData.av_speed"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#adt_weather_data.WeatherData.av_speed" title="Permalink to this definition">¶</a></dt>
+<dd><p>(WeatherData) -&gt; List
+Return list with average wind speed of the week.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="adt_weather_data.WeatherData.av_temp">
+<code class="sig-name descname">av_temp</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/adt_weather_data.html#WeatherData.av_temp"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#adt_weather_data.WeatherData.av_temp" title="Permalink to this definition">¶</a></dt>
+<dd><p>(WeatherData) -&gt; List
+Return list with average temperatures of the week.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="adt_weather_data.WeatherData.day">
+<code class="sig-name descname">day</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">n</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/adt_weather_data.html#WeatherData.day"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#adt_weather_data.WeatherData.day" title="Permalink to this definition">¶</a></dt>
+<dd><p>(WeatherData, int) -&gt; List
+Return a list with information about the day.
+(sol, average temperature, pressure, wind speed)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="adt_weather_data.WeatherData.days_list">
+<code class="sig-name descname">days_list</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/adt_weather_data.html#WeatherData.days_list"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#adt_weather_data.WeatherData.days_list" title="Permalink to this definition">¶</a></dt>
+<dd><p>(WeatherData) -&gt; List
+Return a list with sols (days) numbers.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="adt_weather_data.WeatherData.extract_data">
+<code class="sig-name descname">extract_data</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/adt_weather_data.html#WeatherData.extract_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#adt_weather_data.WeatherData.extract_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>(WeatherData) -&gt; NoneType
+Extract data from the json and place it in the container.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="adt_weather_data.WeatherData.max_pres">
+<code class="sig-name descname">max_pres</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/adt_weather_data.html#WeatherData.max_pres"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#adt_weather_data.WeatherData.max_pres" title="Permalink to this definition">¶</a></dt>
+<dd><p>(WeatherData) -&gt; List
+Return list with maximum pressure of the week.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="adt_weather_data.WeatherData.max_speed">
+<code class="sig-name descname">max_speed</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/adt_weather_data.html#WeatherData.max_speed"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#adt_weather_data.WeatherData.max_speed" title="Permalink to this definition">¶</a></dt>
+<dd><p>(WeatherData) -&gt; List
+Return list with maximum wind speed of the week.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="adt_weather_data.WeatherData.max_temp">
+<code class="sig-name descname">max_temp</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/adt_weather_data.html#WeatherData.max_temp"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#adt_weather_data.WeatherData.max_temp" title="Permalink to this definition">¶</a></dt>
+<dd><p>(WeatherData) -&gt; List
+Return list with maximum temperatures of the week.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="adt_weather_data.WeatherData.min_pres">
+<code class="sig-name descname">min_pres</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/adt_weather_data.html#WeatherData.min_pres"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#adt_weather_data.WeatherData.min_pres" title="Permalink to this definition">¶</a></dt>
+<dd><p>(WeatherData) -&gt; List
+Return list with minimum pressure of the week.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="adt_weather_data.WeatherData.min_speed">
+<code class="sig-name descname">min_speed</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/adt_weather_data.html#WeatherData.min_speed"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#adt_weather_data.WeatherData.min_speed" title="Permalink to this definition">¶</a></dt>
+<dd><p>(WeatherData) -&gt; List
+Return list with minimum wind speed of the week.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="adt_weather_data.WeatherData.min_temp">
+<code class="sig-name descname">min_temp</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/adt_weather_data.html#WeatherData.min_temp"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#adt_weather_data.WeatherData.min_temp" title="Permalink to this definition">¶</a></dt>
+<dd><p>(WeatherData) -&gt; List
+Return list with minimum temperatures of the week.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="adt_weather_data.WeatherData.season">
+<code class="sig-name descname">season</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">n</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/adt_weather_data.html#WeatherData.season"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#adt_weather_data.WeatherData.season" title="Permalink to this definition">¶</a></dt>
+<dd><p>(WeatherData, int) -&gt; str
+Return season corresponding to the day.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="adt_weather_data.WeatherData.wind_rose">
+<code class="sig-name descname">wind_rose</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">n</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/adt_weather_data.html#WeatherData.wind_rose"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#adt_weather_data.WeatherData.wind_rose" title="Permalink to this definition">¶</a></dt>
+<dd><p>(WeatherData, int) -&gt; LinkedList
+Return linked list with data for n-th day wind rose.</p>
+</dd></dl>
+
+</dd></dl>
+
+<span class="target" id="module-list"></span><dl class="py class">
+<dt id="list.List">
+<em class="property">class </em><code class="sig-prename descclassname">list.</code><code class="sig-name descname">List</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">size</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/list.html#List"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#list.List" title="Permalink to this definition">¶</a></dt>
+<dd><p>Class for list/array representation.</p>
+<dl class="py method">
+<dt id="list.List.add">
+<code class="sig-name descname">add</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">item</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/list.html#List.add"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#list.List.add" title="Permalink to this definition">¶</a></dt>
+<dd><p>(List, object) -&gt; NoneType
+Add an item to a first free place in the list,
+if there is one.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="list.List.clear">
+<code class="sig-name descname">clear</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/list.html#List.clear"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#list.List.clear" title="Permalink to this definition">¶</a></dt>
+<dd><p>(List, object) -&gt; NoneType
+Set all the entries to the value.</p>
+</dd></dl>
+
+</dd></dl>
+
+<span class="target" id="module-linked_list"></span><dl class="py class">
+<dt id="linked_list.LinkedList">
+<em class="property">class </em><code class="sig-prename descclassname">linked_list.</code><code class="sig-name descname">LinkedList</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">item</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/linked_list.html#LinkedList"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#linked_list.LinkedList" title="Permalink to this definition">¶</a></dt>
+<dd><p>Class for linked list representation.</p>
+<dl class="py method">
+<dt id="linked_list.LinkedList.add">
+<code class="sig-name descname">add</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">item</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/linked_list.html#LinkedList.add"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#linked_list.LinkedList.add" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add an item to the linked list.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="linked_list.LinkedList.head">
+<code class="sig-name descname">head</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/linked_list.html#LinkedList.head"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#linked_list.LinkedList.head" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the head of the linked list.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="linked_list.LinkedListNode">
+<em class="property">class </em><code class="sig-prename descclassname">linked_list.</code><code class="sig-name descname">LinkedListNode</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">item</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/linked_list.html#LinkedListNode"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#linked_list.LinkedListNode" title="Permalink to this definition">¶</a></dt>
+<dd><p>Class for linked list node representation.</p>
+</dd></dl>
+
+<span class="target" id="module-multi_linked_list"></span><dl class="py class">
+<dt id="multi_linked_list.DoubleMLinkedList">
+<em class="property">class </em><code class="sig-prename descclassname">multi_linked_list.</code><code class="sig-name descname">DoubleMLinkedList</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">item</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/multi_linked_list.html#DoubleMLinkedList"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#multi_linked_list.DoubleMLinkedList" title="Permalink to this definition">¶</a></dt>
+<dd><p>Class for double linked list representation.</p>
+<dl class="py method">
+<dt id="multi_linked_list.DoubleMLinkedList.add_one_way">
+<code class="sig-name descname">add_one_way</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">item</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/multi_linked_list.html#DoubleMLinkedList.add_one_way"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#multi_linked_list.DoubleMLinkedList.add_one_way" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add an item the one way of the double linked list.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="multi_linked_list.DoubleMLinkedList.add_second_way">
+<code class="sig-name descname">add_second_way</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">item</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/multi_linked_list.html#DoubleMLinkedList.add_second_way"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#multi_linked_list.DoubleMLinkedList.add_second_way" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add an item the second way of the double linked list.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="multi_linked_list.DoubleMLinkedList.head">
+<code class="sig-name descname">head</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/multi_linked_list.html#DoubleMLinkedList.head"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#multi_linked_list.DoubleMLinkedList.head" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return head of the double linked list.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="multi_linked_list.TripleMLinkedList">
+<em class="property">class </em><code class="sig-prename descclassname">multi_linked_list.</code><code class="sig-name descname">TripleMLinkedList</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">item</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/multi_linked_list.html#TripleMLinkedList"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#multi_linked_list.TripleMLinkedList" title="Permalink to this definition">¶</a></dt>
+<dd><p>Class for triple linked list representation.</p>
+<dl class="py method">
+<dt id="multi_linked_list.TripleMLinkedList.add_one_way">
+<code class="sig-name descname">add_one_way</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">item</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/multi_linked_list.html#TripleMLinkedList.add_one_way"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#multi_linked_list.TripleMLinkedList.add_one_way" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add an item the one way of the triple linked list.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="multi_linked_list.TripleMLinkedList.add_second_way">
+<code class="sig-name descname">add_second_way</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">item</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/multi_linked_list.html#TripleMLinkedList.add_second_way"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#multi_linked_list.TripleMLinkedList.add_second_way" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add an item the second way of the triple linked list.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="multi_linked_list.TripleMLinkedList.add_third_way">
+<code class="sig-name descname">add_third_way</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">item</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/multi_linked_list.html#TripleMLinkedList.add_third_way"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#multi_linked_list.TripleMLinkedList.add_third_way" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add an item the third way of the triple linked list.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="multi_linked_list.TripleMLinkedList.head">
+<code class="sig-name descname">head</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/multi_linked_list.html#TripleMLinkedList.head"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#multi_linked_list.TripleMLinkedList.head" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return head of the triple linked list.</p>
+</dd></dl>
+
+</dd></dl>
+
+<div class="toctree-wrapper compound">
+</div>
+</div>
+<div class="section" id="indices-and-tables">
+<h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li><p><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></p></li>
+<li><p><a class="reference internal" href="py-modindex.html"><span class="std std-ref">Module Index</span></a></p></li>
+<li><p><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></p></li>
+</ul>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="#">Table of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Welcome to Martian Weather’s documentation!</a></li>
+<li><a class="reference internal" href="#indices-and-tables">Indices and tables</a></li>
+</ul>
+
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/index.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="#">Martian Weather Project 0.0.1 documentation</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2020, Daria Omelkina.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.0.3.
+    </div>
+  </body>
+</html>

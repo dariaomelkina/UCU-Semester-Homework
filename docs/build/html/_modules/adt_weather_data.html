@@ -1,0 +1,371 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>adt_weather_data &#8212; Martian Weather Project 0.0.1 documentation</title>
+    <link rel="stylesheet" href="../_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/language_data.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Martian Weather Project 0.0.1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">Module code</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for adt_weather_data</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">modules.list</span> <span class="kn">import</span> <span class="n">List</span>
+<span class="kn">from</span> <span class="nn">modules.linked_list</span> <span class="kn">import</span> <span class="n">LinkedList</span><span class="p">,</span> <span class="n">LinkedListNode</span>
+<span class="kn">from</span> <span class="nn">modules.multi_linked_list</span> <span class="kn">import</span> <span class="n">DoubleMLinkedList</span><span class="p">,</span> <span class="n">TripleMLinkedList</span>
+
+
+<div class="viewcode-block" id="WeatherData"><a class="viewcode-back" href="../index.html#adt_weather_data.WeatherData">[docs]</a><span class="k">class</span> <span class="nc">WeatherData</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot; Class for weather data container representation. &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        (WeatherData) -&gt; NoneType</span>
+<span class="sd">        Create new weather data container.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_data</span> <span class="o">=</span> <span class="n">data</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_week_list</span> <span class="o">=</span> <span class="n">List</span><span class="p">(</span><span class="mi">7</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_week_list</span><span class="p">)):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_week_list</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">List</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_graphs_data_list</span> <span class="o">=</span> <span class="n">TripleMLinkedList</span><span class="p">(</span><span class="s1">&#39;week&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_graphs_data_list</span><span class="o">.</span><span class="n">head</span><span class="p">()</span><span class="o">.</span><span class="n">one_way</span> <span class="o">=</span> <span class="n">List</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_graphs_data_list</span><span class="o">.</span><span class="n">head</span><span class="p">()</span><span class="o">.</span><span class="n">second_way</span> <span class="o">=</span> <span class="n">List</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_graphs_data_list</span><span class="o">.</span><span class="n">head</span><span class="p">()</span><span class="o">.</span><span class="n">third_way</span> <span class="o">=</span> <span class="n">List</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_days_list</span> <span class="o">=</span> <span class="n">List</span><span class="p">(</span><span class="mi">7</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">extract_data</span><span class="p">()</span>
+
+<div class="viewcode-block" id="WeatherData.extract_data"><a class="viewcode-back" href="../index.html#adt_weather_data.WeatherData.extract_data">[docs]</a>    <span class="k">def</span> <span class="nf">extract_data</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        (WeatherData) -&gt; NoneType</span>
+<span class="sd">        Extract data from the json and place it in the container.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># make a dictionary with information</span>
+        <span class="n">dict_with_day_data</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">[</span><span class="s1">&#39;sol_keys&#39;</span><span class="p">]:</span>
+                <span class="n">dict_with_day_data</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_days_list</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+
+        <span class="c1"># add information for each day</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">7</span><span class="p">):</span>
+            <span class="n">t_list</span> <span class="o">=</span> <span class="n">List</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+            <span class="n">p_list</span> <span class="o">=</span> <span class="n">List</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+            <span class="n">s_list</span> <span class="o">=</span> <span class="n">List</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+
+            <span class="n">sol</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_days_list</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_week_list</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">sol</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_week_list</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">TripleMLinkedList</span><span class="p">(</span><span class="s1">&#39;tps&#39;</span><span class="p">)</span>
+
+            <span class="n">t_list</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">LinkedListNode</span><span class="p">(</span><span class="n">dict_with_day_data</span><span class="p">[</span><span class="n">sol</span><span class="p">][</span><span class="s1">&#39;AT&#39;</span><span class="p">][</span><span class="s1">&#39;mn&#39;</span><span class="p">])</span>
+            <span class="n">t_list</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">LinkedListNode</span><span class="p">(</span><span class="n">dict_with_day_data</span><span class="p">[</span><span class="n">sol</span><span class="p">][</span><span class="s1">&#39;AT&#39;</span><span class="p">][</span><span class="s1">&#39;mx&#39;</span><span class="p">])</span>
+            <span class="n">t_list</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">LinkedListNode</span><span class="p">(</span><span class="n">dict_with_day_data</span><span class="p">[</span><span class="n">sol</span><span class="p">][</span><span class="s1">&#39;AT&#39;</span><span class="p">][</span><span class="s1">&#39;av&#39;</span><span class="p">])</span>
+
+            <span class="n">p_list</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">LinkedListNode</span><span class="p">(</span><span class="n">dict_with_day_data</span><span class="p">[</span><span class="n">sol</span><span class="p">][</span><span class="s1">&#39;PRE&#39;</span><span class="p">][</span><span class="s1">&#39;mn&#39;</span><span class="p">])</span>
+            <span class="n">p_list</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">LinkedListNode</span><span class="p">(</span><span class="n">dict_with_day_data</span><span class="p">[</span><span class="n">sol</span><span class="p">][</span><span class="s1">&#39;PRE&#39;</span><span class="p">][</span><span class="s1">&#39;mx&#39;</span><span class="p">])</span>
+            <span class="n">p_list</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">LinkedListNode</span><span class="p">(</span><span class="n">dict_with_day_data</span><span class="p">[</span><span class="n">sol</span><span class="p">][</span><span class="s1">&#39;PRE&#39;</span><span class="p">][</span><span class="s1">&#39;av&#39;</span><span class="p">])</span>
+
+            <span class="n">s_list</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">LinkedListNode</span><span class="p">(</span><span class="n">dict_with_day_data</span><span class="p">[</span><span class="n">sol</span><span class="p">][</span><span class="s1">&#39;HWS&#39;</span><span class="p">][</span><span class="s1">&#39;mn&#39;</span><span class="p">])</span>
+            <span class="n">s_list</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">LinkedListNode</span><span class="p">(</span><span class="n">dict_with_day_data</span><span class="p">[</span><span class="n">sol</span><span class="p">][</span><span class="s1">&#39;HWS&#39;</span><span class="p">][</span><span class="s1">&#39;mx&#39;</span><span class="p">])</span>
+            <span class="n">s_list</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">LinkedListNode</span><span class="p">(</span><span class="n">dict_with_day_data</span><span class="p">[</span><span class="n">sol</span><span class="p">][</span><span class="s1">&#39;HWS&#39;</span><span class="p">][</span><span class="s1">&#39;av&#39;</span><span class="p">])</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">_week_list</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">one_way</span> <span class="o">=</span> <span class="n">t_list</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_week_list</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">second_way</span> <span class="o">=</span> <span class="n">p_list</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_week_list</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">third_way</span> <span class="o">=</span> <span class="n">s_list</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">_week_list</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">DoubleMLinkedList</span><span class="p">(</span><span class="s1">&#39;wr&#39;</span><span class="p">)</span>
+
+            <span class="n">temp</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">dict_with_day_data</span><span class="p">[</span><span class="n">sol</span><span class="p">][</span><span class="s1">&#39;WD&#39;</span><span class="p">]][</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">ct</span> <span class="o">=</span> <span class="n">LinkedList</span><span class="p">(</span><span class="n">dict_with_day_data</span><span class="p">[</span><span class="n">sol</span><span class="p">][</span><span class="s1">&#39;WD&#39;</span><span class="p">][</span><span class="n">temp</span><span class="p">][</span><span class="s1">&#39;ct&#39;</span><span class="p">])</span>
+            <span class="n">dg</span> <span class="o">=</span> <span class="n">LinkedList</span><span class="p">(</span><span class="n">dict_with_day_data</span><span class="p">[</span><span class="n">sol</span><span class="p">][</span><span class="s1">&#39;WD&#39;</span><span class="p">][</span><span class="n">temp</span><span class="p">][</span><span class="s1">&#39;compass_degrees&#39;</span><span class="p">])</span>
+
+            <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">dict_with_day_data</span><span class="p">[</span><span class="n">sol</span><span class="p">][</span><span class="s1">&#39;WD&#39;</span><span class="p">]:</span>
+                <span class="k">if</span> <span class="n">key</span> <span class="o">!=</span> <span class="n">temp</span><span class="p">:</span>
+                    <span class="n">ct</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">dict_with_day_data</span><span class="p">[</span><span class="n">sol</span><span class="p">][</span><span class="s1">&#39;WD&#39;</span><span class="p">][</span><span class="n">key</span><span class="p">][</span><span class="s1">&#39;ct&#39;</span><span class="p">])</span>
+                    <span class="n">dg</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">dict_with_day_data</span><span class="p">[</span><span class="n">sol</span><span class="p">][</span><span class="s1">&#39;WD&#39;</span><span class="p">][</span><span class="n">key</span><span class="p">][</span><span class="s1">&#39;compass_degrees&#39;</span><span class="p">])</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">_week_list</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">one_way</span> <span class="o">=</span> <span class="n">ct</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_week_list</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">second_way</span> <span class="o">=</span> <span class="n">dg</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">_week_list</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="n">dict_with_day_data</span><span class="p">[</span><span class="n">sol</span><span class="p">][</span><span class="s1">&#39;Season&#39;</span><span class="p">]</span>
+
+        <span class="c1"># connect information for all the days tmin</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_graphs_data_list</span><span class="o">.</span><span class="n">head</span><span class="p">()</span><span class="o">.</span><span class="n">one_way</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">LinkedList</span><span class="p">(</span><span class="s1">&#39;tmin&#39;</span><span class="p">)</span>
+        <span class="n">node</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_graphs_data_list</span><span class="o">.</span><span class="n">head</span><span class="p">()</span><span class="o">.</span><span class="n">one_way</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">7</span><span class="p">):</span>
+            <span class="n">node</span><span class="o">.</span><span class="n">next</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_week_list</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">one_way</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">node</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">next</span>
+
+        <span class="c1"># connect information for all the days tmax</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_graphs_data_list</span><span class="o">.</span><span class="n">head</span><span class="p">()</span><span class="o">.</span><span class="n">one_way</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">LinkedList</span><span class="p">(</span><span class="s1">&#39;tmax&#39;</span><span class="p">)</span>
+        <span class="n">node</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_graphs_data_list</span><span class="o">.</span><span class="n">head</span><span class="p">()</span><span class="o">.</span><span class="n">one_way</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">7</span><span class="p">):</span>
+            <span class="n">node</span><span class="o">.</span><span class="n">next</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_week_list</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">one_way</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+            <span class="n">node</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">next</span>
+
+        <span class="c1"># connect information for all the days tav</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_graphs_data_list</span><span class="o">.</span><span class="n">head</span><span class="p">()</span><span class="o">.</span><span class="n">one_way</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">LinkedList</span><span class="p">(</span><span class="s1">&#39;tav&#39;</span><span class="p">)</span>
+        <span class="n">node</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_graphs_data_list</span><span class="o">.</span><span class="n">head</span><span class="p">()</span><span class="o">.</span><span class="n">one_way</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">7</span><span class="p">):</span>
+            <span class="n">node</span><span class="o">.</span><span class="n">next</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_week_list</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">one_way</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+            <span class="n">node</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">next</span>
+
+        <span class="c1"># connect information for all the days pmin</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_graphs_data_list</span><span class="o">.</span><span class="n">head</span><span class="p">()</span><span class="o">.</span><span class="n">second_way</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">LinkedList</span><span class="p">(</span><span class="s1">&#39;pmin&#39;</span><span class="p">)</span>
+        <span class="n">node</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_graphs_data_list</span><span class="o">.</span><span class="n">head</span><span class="p">()</span><span class="o">.</span><span class="n">second_way</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">7</span><span class="p">):</span>
+            <span class="n">node</span><span class="o">.</span><span class="n">next</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_week_list</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">second_way</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">node</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">next</span>
+
+        <span class="c1"># connect information for all the days pmax</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_graphs_data_list</span><span class="o">.</span><span class="n">head</span><span class="p">()</span><span class="o">.</span><span class="n">second_way</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">LinkedList</span><span class="p">(</span><span class="s1">&#39;pmax&#39;</span><span class="p">)</span>
+        <span class="n">node</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_graphs_data_list</span><span class="o">.</span><span class="n">head</span><span class="p">()</span><span class="o">.</span><span class="n">second_way</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">7</span><span class="p">):</span>
+            <span class="n">node</span><span class="o">.</span><span class="n">next</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_week_list</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">second_way</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+            <span class="n">node</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">next</span>
+
+        <span class="c1"># connect information for all the days pav</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_graphs_data_list</span><span class="o">.</span><span class="n">head</span><span class="p">()</span><span class="o">.</span><span class="n">second_way</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">LinkedList</span><span class="p">(</span><span class="s1">&#39;pav&#39;</span><span class="p">)</span>
+        <span class="n">node</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_graphs_data_list</span><span class="o">.</span><span class="n">head</span><span class="p">()</span><span class="o">.</span><span class="n">second_way</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">7</span><span class="p">):</span>
+            <span class="n">node</span><span class="o">.</span><span class="n">next</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_week_list</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">second_way</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+            <span class="n">node</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">next</span>
+
+        <span class="c1"># connect information for all the days smin</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_graphs_data_list</span><span class="o">.</span><span class="n">head</span><span class="p">()</span><span class="o">.</span><span class="n">third_way</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">LinkedList</span><span class="p">(</span><span class="s1">&#39;smin&#39;</span><span class="p">)</span>
+        <span class="n">node</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_graphs_data_list</span><span class="o">.</span><span class="n">head</span><span class="p">()</span><span class="o">.</span><span class="n">third_way</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">7</span><span class="p">):</span>
+            <span class="n">node</span><span class="o">.</span><span class="n">next</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_week_list</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">third_way</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">node</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">next</span>
+
+        <span class="c1"># connect information for all the days smax</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_graphs_data_list</span><span class="o">.</span><span class="n">head</span><span class="p">()</span><span class="o">.</span><span class="n">third_way</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">LinkedList</span><span class="p">(</span><span class="s1">&#39;smax&#39;</span><span class="p">)</span>
+        <span class="n">node</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_graphs_data_list</span><span class="o">.</span><span class="n">head</span><span class="p">()</span><span class="o">.</span><span class="n">third_way</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">7</span><span class="p">):</span>
+            <span class="n">node</span><span class="o">.</span><span class="n">next</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_week_list</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">third_way</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+            <span class="n">node</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">next</span>
+
+        <span class="c1"># connect information for all the days sav</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_graphs_data_list</span><span class="o">.</span><span class="n">head</span><span class="p">()</span><span class="o">.</span><span class="n">third_way</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">LinkedList</span><span class="p">(</span><span class="s1">&#39;sav&#39;</span><span class="p">)</span>
+        <span class="n">node</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_graphs_data_list</span><span class="o">.</span><span class="n">head</span><span class="p">()</span><span class="o">.</span><span class="n">third_way</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">7</span><span class="p">):</span>
+            <span class="n">node</span><span class="o">.</span><span class="n">next</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_week_list</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">third_way</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+            <span class="n">node</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">next</span></div>
+
+<div class="viewcode-block" id="WeatherData.days_list"><a class="viewcode-back" href="../index.html#adt_weather_data.WeatherData.days_list">[docs]</a>    <span class="k">def</span> <span class="nf">days_list</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        (WeatherData) -&gt; List</span>
+<span class="sd">        Return a list with sols (days) numbers.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_days_list</span></div>
+
+<div class="viewcode-block" id="WeatherData.day"><a class="viewcode-back" href="../index.html#adt_weather_data.WeatherData.day">[docs]</a>    <span class="k">def</span> <span class="nf">day</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        (WeatherData, int) -&gt; List</span>
+<span class="sd">        Return a list with information about the day.</span>
+<span class="sd">        (sol, average temperature, pressure, wind speed)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">List</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+        <span class="n">result</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_week_list</span><span class="p">[</span><span class="n">n</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">result</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_week_list</span><span class="p">[</span><span class="n">n</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">one_way</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">item</span>
+        <span class="n">result</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_week_list</span><span class="p">[</span><span class="n">n</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">second_way</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">item</span>
+        <span class="n">result</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_week_list</span><span class="p">[</span><span class="n">n</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">third_way</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">item</span>
+        <span class="k">return</span> <span class="n">result</span></div>
+
+<div class="viewcode-block" id="WeatherData.season"><a class="viewcode-back" href="../index.html#adt_weather_data.WeatherData.season">[docs]</a>    <span class="k">def</span> <span class="nf">season</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        (WeatherData, int) -&gt; str</span>
+<span class="sd">        Return season corresponding to the day.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_week_list</span><span class="p">[</span><span class="n">n</span><span class="p">][</span><span class="mi">3</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="WeatherData.wind_rose"><a class="viewcode-back" href="../index.html#adt_weather_data.WeatherData.wind_rose">[docs]</a>    <span class="k">def</span> <span class="nf">wind_rose</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        (WeatherData, int) -&gt; LinkedList</span>
+<span class="sd">        Return linked list with data for n-th day wind rose.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">ct</span> <span class="o">=</span> <span class="n">List</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_week_list</span><span class="p">[</span><span class="n">n</span><span class="p">][</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">one_way</span><span class="p">))</span>
+        <span class="n">node</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_week_list</span><span class="p">[</span><span class="n">n</span><span class="p">][</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">one_way</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+        <span class="k">while</span> <span class="n">node</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">ct</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">item</span><span class="p">)</span>
+            <span class="n">node</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">next</span>
+        <span class="n">dg</span> <span class="o">=</span> <span class="n">List</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_week_list</span><span class="p">[</span><span class="n">n</span><span class="p">][</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">one_way</span><span class="p">))</span>
+        <span class="n">node</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_week_list</span><span class="p">[</span><span class="n">n</span><span class="p">][</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">second_way</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+        <span class="k">while</span> <span class="n">node</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">dg</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">item</span><span class="p">)</span>
+            <span class="n">node</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">next</span>
+        <span class="n">wr</span> <span class="o">=</span> <span class="n">LinkedList</span><span class="p">(</span><span class="n">ct</span><span class="p">)</span>
+        <span class="n">wr</span><span class="o">.</span><span class="n">head</span><span class="p">()</span><span class="o">.</span><span class="n">next</span> <span class="o">=</span> <span class="n">dg</span>
+        <span class="k">return</span> <span class="n">wr</span></div>
+
+<div class="viewcode-block" id="WeatherData.min_temp"><a class="viewcode-back" href="../index.html#adt_weather_data.WeatherData.min_temp">[docs]</a>    <span class="k">def</span> <span class="nf">min_temp</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        (WeatherData) -&gt; List</span>
+<span class="sd">        Return list with minimum temperatures of the week.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">List</span><span class="p">(</span><span class="mi">7</span><span class="p">)</span>
+        <span class="n">node</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_graphs_data_list</span><span class="o">.</span><span class="n">head</span><span class="p">()</span><span class="o">.</span><span class="n">one_way</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">head</span><span class="p">()</span><span class="o">.</span><span class="n">next</span>
+        <span class="k">while</span> <span class="n">node</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">result</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">item</span><span class="p">)</span>
+            <span class="n">node</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">next</span>
+        <span class="k">return</span> <span class="n">result</span></div>
+
+<div class="viewcode-block" id="WeatherData.max_temp"><a class="viewcode-back" href="../index.html#adt_weather_data.WeatherData.max_temp">[docs]</a>    <span class="k">def</span> <span class="nf">max_temp</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        (WeatherData) -&gt; List</span>
+<span class="sd">        Return list with maximum temperatures of the week.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">List</span><span class="p">(</span><span class="mi">7</span><span class="p">)</span>
+        <span class="n">node</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_graphs_data_list</span><span class="o">.</span><span class="n">head</span><span class="p">()</span><span class="o">.</span><span class="n">one_way</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">head</span><span class="p">()</span><span class="o">.</span><span class="n">next</span>
+        <span class="k">while</span> <span class="n">node</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">result</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">item</span><span class="p">)</span>
+            <span class="n">node</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">next</span>
+        <span class="k">return</span> <span class="n">result</span></div>
+
+<div class="viewcode-block" id="WeatherData.av_temp"><a class="viewcode-back" href="../index.html#adt_weather_data.WeatherData.av_temp">[docs]</a>    <span class="k">def</span> <span class="nf">av_temp</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        (WeatherData) -&gt; List</span>
+<span class="sd">        Return list with average temperatures of the week.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">List</span><span class="p">(</span><span class="mi">7</span><span class="p">)</span>
+        <span class="n">node</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_graphs_data_list</span><span class="o">.</span><span class="n">head</span><span class="p">()</span><span class="o">.</span><span class="n">one_way</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">head</span><span class="p">()</span><span class="o">.</span><span class="n">next</span>
+        <span class="k">while</span> <span class="n">node</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">result</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">item</span><span class="p">)</span>
+            <span class="n">node</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">next</span>
+        <span class="k">return</span> <span class="n">result</span></div>
+
+<div class="viewcode-block" id="WeatherData.min_pres"><a class="viewcode-back" href="../index.html#adt_weather_data.WeatherData.min_pres">[docs]</a>    <span class="k">def</span> <span class="nf">min_pres</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        (WeatherData) -&gt; List</span>
+<span class="sd">        Return list with minimum pressure of the week.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">List</span><span class="p">(</span><span class="mi">7</span><span class="p">)</span>
+        <span class="n">node</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_graphs_data_list</span><span class="o">.</span><span class="n">head</span><span class="p">()</span><span class="o">.</span><span class="n">second_way</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">head</span><span class="p">()</span><span class="o">.</span><span class="n">next</span>
+        <span class="k">while</span> <span class="n">node</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">result</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">item</span><span class="p">)</span>
+            <span class="n">node</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">next</span>
+        <span class="k">return</span> <span class="n">result</span></div>
+
+<div class="viewcode-block" id="WeatherData.max_pres"><a class="viewcode-back" href="../index.html#adt_weather_data.WeatherData.max_pres">[docs]</a>    <span class="k">def</span> <span class="nf">max_pres</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        (WeatherData) -&gt; List</span>
+<span class="sd">        Return list with maximum pressure of the week.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">List</span><span class="p">(</span><span class="mi">7</span><span class="p">)</span>
+        <span class="n">node</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_graphs_data_list</span><span class="o">.</span><span class="n">head</span><span class="p">()</span><span class="o">.</span><span class="n">second_way</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">head</span><span class="p">()</span><span class="o">.</span><span class="n">next</span>
+        <span class="k">while</span> <span class="n">node</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">result</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">item</span><span class="p">)</span>
+            <span class="n">node</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">next</span>
+        <span class="k">return</span> <span class="n">result</span></div>
+
+<div class="viewcode-block" id="WeatherData.av_pres"><a class="viewcode-back" href="../index.html#adt_weather_data.WeatherData.av_pres">[docs]</a>    <span class="k">def</span> <span class="nf">av_pres</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        (WeatherData) -&gt; List</span>
+<span class="sd">        Return list with average pressure of the week.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">List</span><span class="p">(</span><span class="mi">7</span><span class="p">)</span>
+        <span class="n">node</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_graphs_data_list</span><span class="o">.</span><span class="n">head</span><span class="p">()</span><span class="o">.</span><span class="n">second_way</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">head</span><span class="p">()</span><span class="o">.</span><span class="n">next</span>
+        <span class="k">while</span> <span class="n">node</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">result</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">item</span><span class="p">)</span>
+            <span class="n">node</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">next</span>
+        <span class="k">return</span> <span class="n">result</span></div>
+
+<div class="viewcode-block" id="WeatherData.min_speed"><a class="viewcode-back" href="../index.html#adt_weather_data.WeatherData.min_speed">[docs]</a>    <span class="k">def</span> <span class="nf">min_speed</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        (WeatherData) -&gt; List</span>
+<span class="sd">        Return list with minimum wind speed of the week.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">List</span><span class="p">(</span><span class="mi">7</span><span class="p">)</span>
+        <span class="n">node</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_graphs_data_list</span><span class="o">.</span><span class="n">head</span><span class="p">()</span><span class="o">.</span><span class="n">third_way</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">head</span><span class="p">()</span><span class="o">.</span><span class="n">next</span>
+        <span class="k">while</span> <span class="n">node</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">result</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">item</span><span class="p">)</span>
+            <span class="n">node</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">next</span>
+        <span class="k">return</span> <span class="n">result</span></div>
+
+<div class="viewcode-block" id="WeatherData.max_speed"><a class="viewcode-back" href="../index.html#adt_weather_data.WeatherData.max_speed">[docs]</a>    <span class="k">def</span> <span class="nf">max_speed</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        (WeatherData) -&gt; List</span>
+<span class="sd">        Return list with maximum wind speed of the week.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">List</span><span class="p">(</span><span class="mi">7</span><span class="p">)</span>
+        <span class="n">node</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_graphs_data_list</span><span class="o">.</span><span class="n">head</span><span class="p">()</span><span class="o">.</span><span class="n">third_way</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">head</span><span class="p">()</span><span class="o">.</span><span class="n">next</span>
+        <span class="k">while</span> <span class="n">node</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">result</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">item</span><span class="p">)</span>
+            <span class="n">node</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">next</span>
+        <span class="k">return</span> <span class="n">result</span></div>
+
+<div class="viewcode-block" id="WeatherData.av_speed"><a class="viewcode-back" href="../index.html#adt_weather_data.WeatherData.av_speed">[docs]</a>    <span class="k">def</span> <span class="nf">av_speed</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        (WeatherData) -&gt; List</span>
+<span class="sd">        Return list with average wind speed of the week.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">List</span><span class="p">(</span><span class="mi">7</span><span class="p">)</span>
+        <span class="n">node</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_graphs_data_list</span><span class="o">.</span><span class="n">head</span><span class="p">()</span><span class="o">.</span><span class="n">third_way</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">head</span><span class="p">()</span><span class="o">.</span><span class="n">next</span>
+        <span class="k">while</span> <span class="n">node</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">result</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">item</span><span class="p">)</span>
+            <span class="n">node</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">next</span>
+        <span class="k">return</span> <span class="n">result</span></div></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Martian Weather Project 0.0.1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" >Module code</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2020, Daria Omelkina.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.0.3.
+    </div>
+  </body>
+</html>
