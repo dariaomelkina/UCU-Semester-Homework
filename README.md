@@ -2,6 +2,10 @@
 Welcome to the Martian Weather Project.
 Here you can check the web app: [Martian Weather Project](http://dariaomelkina.pythonanywhere.com)
 
+Here you can check the web app: [Martian Weather Project](http://dariaomelkina.pythonanywhere.com)
+
+(hosted on pythonanywhere.com)
+
 ## Description: 
 The Martian_Weather_Project consists of an web app, 
 which uses NASA's InSight: Mars Weather Service API to provide users with such information as:
