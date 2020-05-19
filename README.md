@@ -6,6 +6,8 @@ Here you can check the web app: [Martian Weather Project](http://dariaomelkina.p
 (hosted on pythonanywhere.com)
 
 ## Description: 
+[Video Preview](https://github.com/dariaomelkina/UCU-Semester-Homework/blob/master/project_video.avi)
+
 The Martian_Weather_Project consists of an web app, 
 which uses NASA's InSight: Mars Weather Service API to provide users with such information as:
 
