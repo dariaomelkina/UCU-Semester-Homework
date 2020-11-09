@@ -1,9 +1,9 @@
 ## Project name: UCU-Semester-Homework: Martian_Weather_Project
 Welcome to the Martian Weather Project.
 
-Here you can check the web app: [Martian Weather Project](http://dariaomelkina.pythonanywhere.com)
+Here you can check the web app: [~~Martian Weather Project~~]()
 
-(hosted on pythonanywhere.com)
+(not supported anymore)
 
 ## Description: 
 [Video Preview](https://github.com/dariaomelkina/UCU-Semester-Homework/blob/master/project_video.avi)
